@@ -12,9 +12,9 @@
     <Grid d:Background="White">
         <Grid.RowDefinitions>
             <RowDefinition Height="1*"/>
-            <RowDefinition Height="10*"/>
+            <RowDefinition Height="5*"/>
         </Grid.RowDefinitions>
-        <Grid>
+        <Grid MaxHeight="100" MinHeight="60">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition/>
                 <ColumnDefinition/>
@@ -27,34 +27,62 @@
                 <ColumnDefinition/>
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
-            <Button
+            <StackPanel Grid.Column="0" Grid.ColumnSpan="2" Orientation="Horizontal">
+                <Button
                 Style="{StaticResource MaterialDesignFloatingActionMiniLightButton}"
                 ToolTip="MaterialDesignFloatingActionMiniLightButton">
-                <materialDesign:PackIcon
+                    <materialDesign:PackIcon
                 Kind="Add"
                 Height="20"
                 Width="20" />
-            </Button>
-            
-            <Button
+                </Button>
+
+                <Button
+                Margin="5 0 0 0"
                 Grid.Column="1"
                 Style="{StaticResource MaterialDesignFloatingActionMiniLightButton}"
                 ToolTip="MaterialDesignFloatingActionMiniLightButton">
-                <materialDesign:PackIcon
+                    <materialDesign:PackIcon
                 Kind="TagAdd"
                 Height="20"
                 Width="20" />
-            </Button>
-
-            <StackPanel Grid.Row="9" Grid.Column="8" Grid.ColumnSpan="2" Orientation="Horizontal">
+                </Button>
+            </StackPanel>
+            
+            <StackPanel Grid.Column="8" Grid.ColumnSpan="2" Orientation="Horizontal">
                 <Ellipse Width="40" Height="40">
                     <Ellipse.Fill>
-                        <ImageBrush ImageSource="/Resources/Images/default_profile.png" />
+                        <ImageBrush ImageSource="/Views/default_profile.png" />
                     </Ellipse.Fill>
                 </Ellipse>
                 <TextBlock FontWeight="DemiBold" Text="1211212121212231231233" VerticalAlignment="Center"/>
 
             </StackPanel>
+        </Grid>
+        <Separator VerticalAlignment="Bottom" Margin="0 0 0 0" BorderThickness="1"/>
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="3*"/>
+                <ColumnDefinition Width="3*"/>
+                <ColumnDefinition Width="5*"/>
+            </Grid.ColumnDefinitions>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="5*"/>
+                </Grid.RowDefinitions>
+                <TextBlock Text="Выберите дату:" FontWeight="Bold" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                <Calendar
+                Grid.Row="1"
+                x:Name="MaterialCalendar" Margin="10 0 10 10" 
+                IsTodayHighlighted="False"
+                Background="Black">
+                    <Calendar.Resources>
+                        <SolidColorBrush x:Key="PrimaryHueMidBrush" Color="Gray" />
+                        <SolidColorBrush x:Key="MaterialDesignBody" Color="White" />
+                    </Calendar.Resources>
+                </Calendar>
+            </Grid>
         </Grid>
     </Grid>
 </UserControl>

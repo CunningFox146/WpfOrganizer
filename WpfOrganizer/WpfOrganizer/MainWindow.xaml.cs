@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using WpfOrganizer.ViewModels;
+using WpfOrganizer.Views;
 
 namespace WpfOrganizer
 {
@@ -24,7 +25,7 @@ namespace WpfOrganizer
         public MainWindow()
         {
             InitializeComponent();
-            DataContext = new LoginViewModel();
+            DataContext = new MainView();
         }
     }
 }
