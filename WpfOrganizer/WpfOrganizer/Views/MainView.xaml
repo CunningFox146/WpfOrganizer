@@ -5,13 +5,13 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:WpfOrganizer.Views"
              
+             
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <DockPanel d:Background="White" ClipToBounds="True">
         <DockPanel DockPanel.Dock="Top">
-
             <Grid DockPanel.Dock="Left" HorizontalAlignment="Center">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition/>
@@ -39,6 +39,7 @@
                 </Button>
             </Grid>
             
+            
             <materialDesign:Chip
                 HorizontalAlignment="Right"
                 DockPanel.Dock="Right"
@@ -56,10 +57,17 @@
                 <ColumnDefinition Width="3*"/>
                 <ColumnDefinition Width="4*"/>
             </Grid.ColumnDefinitions>
+
             <GroupBox Header="Выберите дату" Margin="5">
-                <Calendar
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+
+                    <Calendar
                     Padding="5"
-                    Grid.Row="1"
+                    Grid.Row="0"
                     x:Name="MaterialCalendar" Margin="10 0 10 10" 
                     IsTodayHighlighted="False"
                     Background="Black">
@@ -68,7 +76,18 @@
                             <SolidColorBrush x:Key="MaterialDesignBody" Color="White" />
                         </Calendar.Resources>
                     </Calendar>
+
+                    <Grid Grid.Row="1">
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center">Прогресс: 10/20 (15%)</TextBlock>
+                        <ProgressBar HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="1" Value="25" Height="10" />
+                    </Grid>
+                </Grid>
             </GroupBox>
+
             <GroupBox Header="Ваши задания" Grid.Row="1" Grid.Column="1" Margin="5">
                 <ScrollViewer>
                     <DataGrid ItemsSource="{Binding ItemList}" HeadersVisibility="None" AutoGenerateColumns="False">
@@ -160,13 +179,14 @@
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition/>
                                 <ColumnDefinition/>
+                                <ColumnDefinition/>
                             </Grid.ColumnDefinitions>
                             <materialDesign:Badged
                             HorizontalAlignment="Center"
                             Badge="{materialDesign:PackIcon Plus}"
                             BadgeColorZoneMode="SecondaryMid">
                                 <Button
-                                Style="{StaticResource MaterialDesignFloatingActionMiniLightButton}"
+                                Style="{StaticResource MaterialDesignFloatingActionDarkButton}"
                                 ToolTip="MaterialDesignFloatingActionMiniLightButton">
                                     <materialDesign:PackIcon Kind="ImageAdd"/>
                                 </Button>
@@ -178,10 +198,41 @@
                             Badge="{materialDesign:PackIcon Plus}"
                             BadgeColorZoneMode="SecondaryMid">
                                 <Button
-                                Style="{StaticResource MaterialDesignFloatingActionMiniLightButton}"
+                                Style="{StaticResource MaterialDesignFloatingActionDarkButton}"
                                 ToolTip="MaterialDesignFloatingActionMiniLightButton">
                                     <materialDesign:PackIcon Kind="Poll"/>
                                 </Button>
+                            </materialDesign:Badged>
+                            
+                            <!--<materialDesign:Badged
+                            Grid.Column="2"
+                            HorizontalAlignment="Center"
+                            Badge="{materialDesign:PackIcon Plus}"
+                            BadgeColorZoneMode="SecondaryMid">
+                                <Button
+                                Style="{StaticResource MaterialDesignFloatingActionMiniLightButton}"
+                                ToolTip="MaterialDesignFloatingActionMiniLightButton">
+                                    <materialDesign:PackIcon Kind="Tag"/>
+                                Button>
+                            </materialDesign:Badged>-->
+
+                            <materialDesign:Badged
+                            Grid.Column="2"
+                            HorizontalAlignment="Center"
+                            Badge="{materialDesign:PackIcon Plus}"
+                            BadgeColorZoneMode="SecondaryMid">
+                                <materialDesign:PopupBox
+                            Grid.Column="2" Background="{DynamicResource PrimaryHueDarkBrush}"
+                            Style="{StaticResource MaterialDesignMultiFloatingActionPopupBox}"
+                            PlacementMode="BottomAndAlignCentres"
+                            ToolTipService.Placement="Right"
+                            ToolTip="PopupBox, Style MaterialDesignMultiFloatingActionPopupBox" Cursor="Hand">
+                                    <StackPanel>
+                                        <Button
+                                    ToolTip="Two"
+                                    Content="2" />
+                                    </StackPanel>
+                                </materialDesign:PopupBox>
                             </materialDesign:Badged>
                         </Grid>
                         <Button Margin="0 5 0 5" Content="Добавить задачу"/>
