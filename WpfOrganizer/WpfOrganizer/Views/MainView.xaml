@@ -9,25 +9,15 @@
              
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <Grid d:Background="White">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="1*"/>
-            <RowDefinition Height="5*"/>
-        </Grid.RowDefinitions>
-        <Grid MaxHeight="100" MinHeight="60">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition/>
-                <ColumnDefinition/>
-                <ColumnDefinition/>
-                <ColumnDefinition/>
-                <ColumnDefinition/>
-                <ColumnDefinition/>
-                <ColumnDefinition/>
-                <ColumnDefinition/>
-                <ColumnDefinition/>
-                <ColumnDefinition/>
-            </Grid.ColumnDefinitions>
-            <StackPanel Grid.Column="0" Grid.ColumnSpan="2" Orientation="Horizontal">
+    <DockPanel d:Background="White" ClipToBounds="True">
+        <DockPanel DockPanel.Dock="Top">
+
+            <Grid DockPanel.Dock="Left" HorizontalAlignment="Center">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+
                 <Button
                 Style="{StaticResource MaterialDesignFloatingActionMiniLightButton}"
                 ToolTip="MaterialDesignFloatingActionMiniLightButton">
@@ -47,42 +37,93 @@
                 Height="20"
                 Width="20" />
                 </Button>
-            </StackPanel>
+            </Grid>
             
-            <StackPanel Grid.Column="8" Grid.ColumnSpan="2" Orientation="Horizontal">
-                <Ellipse Width="40" Height="40">
-                    <Ellipse.Fill>
-                        <ImageBrush ImageSource="/Views/default_profile.png" />
-                    </Ellipse.Fill>
-                </Ellipse>
-                <TextBlock FontWeight="DemiBold" Text="1211212121212231231233" VerticalAlignment="Center"/>
-
-            </StackPanel>
-        </Grid>
+            <materialDesign:Chip
+                HorizontalAlignment="Right"
+                DockPanel.Dock="Right"
+                Content="James Willock" Cursor="Hand">
+                <materialDesign:Chip.Icon>
+                    <Image Source="/Views/default_profile.png" />
+                </materialDesign:Chip.Icon>
+            </materialDesign:Chip>
+        </DockPanel>
         <Separator VerticalAlignment="Bottom" Margin="0 0 0 0" BorderThickness="1"/>
-        <Grid Grid.Row="1">
+        
+        <Grid Grid.Row="1" DockPanel.Dock="Bottom">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="3*"/>
                 <ColumnDefinition Width="3*"/>
-                <ColumnDefinition Width="5*"/>
+                <ColumnDefinition Width="4*"/>
             </Grid.ColumnDefinitions>
-            <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="1*"/>
-                    <RowDefinition Height="5*"/>
-                </Grid.RowDefinitions>
-                <TextBlock Text="Выберите дату:" FontWeight="Bold" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            <GroupBox Header="Выберите дату" Margin="5">
                 <Calendar
-                Grid.Row="1"
-                x:Name="MaterialCalendar" Margin="10 0 10 10" 
-                IsTodayHighlighted="False"
-                Background="Black">
-                    <Calendar.Resources>
-                        <SolidColorBrush x:Key="PrimaryHueMidBrush" Color="Gray" />
-                        <SolidColorBrush x:Key="MaterialDesignBody" Color="White" />
-                    </Calendar.Resources>
-                </Calendar>
-            </Grid>
+                    Padding="5"
+                    Grid.Row="1"
+                    x:Name="MaterialCalendar" Margin="10 0 10 10" 
+                    IsTodayHighlighted="False"
+                    Background="Black">
+                        <Calendar.Resources>
+                            <SolidColorBrush x:Key="PrimaryHueMidBrush" Color="Gray" />
+                            <SolidColorBrush x:Key="MaterialDesignBody" Color="White" />
+                        </Calendar.Resources>
+                    </Calendar>
+            </GroupBox>
+            <GroupBox Header="Ваши задания" Grid.Row="1" Grid.Column="1" Margin="5">
+                <ScrollViewer>
+                    <DataGrid ItemsSource="{Binding ItemList}" HeadersVisibility="None" AutoGenerateColumns="False">
+                        <DataGrid.Columns>
+                            <DataGridTemplateColumn Width="*">
+                                <DataGridTemplateColumn.CellTemplate >
+                                    <DataTemplate>
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="2*"/>
+                                                <ColumnDefinition Width="auto"/>
+                                            </Grid.ColumnDefinitions>
+                                            <TextBlock Grid.Column="0" Text="1231212312311231231231231231231231231231231231231212312312311231231231312" TextWrapping="Wrap" HorizontalAlignment="Left" />
+                                            <Grid Grid.Column="1" HorizontalAlignment="Right">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition/>
+                                                    <ColumnDefinition/>
+                                                </Grid.ColumnDefinitions>
+                                                <materialDesign:Card
+                                                Background="{DynamicResource PrimaryHueLightBrush}"
+                                                Foreground="{DynamicResource PrimaryHueLightForegroundBrush}"
+                                                Width="auto"
+                                                Padding="8">
+                                                    <TextBlock
+                                                    FontSize="16"
+                                                    Text="Aa" />
+                                                </materialDesign:Card>
+                                                <CheckBox
+                                                Grid.Column = "1"
+                                                IsChecked="True">
+                                                </CheckBox>
+                                            </Grid>
+                                        </Grid>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </ScrollViewer>
+            </GroupBox>
+            <GroupBox Header="Описание задания" Grid.Row="1" Grid.Column="2" Margin="5">
+                <StackPanel>
+                    <StackPanel>
+                        <TextBox
+                            Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                            VerticalAlignment="Top"
+                            Height="100"
+                            AcceptsReturn="True"
+                            TextWrapping="Wrap"
+                            VerticalScrollBarVisibility="Auto"
+                            materialDesign:HintAssist.Hint="Описание"
+                        />
+                    </StackPanel>
+                </StackPanel>
+            </GroupBox>
         </Grid>
-    </Grid>
+    </DockPanel>
 </UserControl>

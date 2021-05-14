@@ -10,6 +10,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using WpfOrganizer.ViewModels;
 
 namespace WpfOrganizer.Views
 {
@@ -21,6 +22,7 @@ namespace WpfOrganizer.Views
         public MainView()
         {
             InitializeComponent();
+            DataContext = new MainViewModel();
         }
     }
 }
