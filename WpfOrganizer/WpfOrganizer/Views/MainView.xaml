@@ -91,9 +91,12 @@
                                                 Background="{DynamicResource PrimaryHueLightBrush}"
                                                 Foreground="{DynamicResource PrimaryHueLightForegroundBrush}"
                                                 Width="auto"
+                                                Height="35"
+                                                Margin="5"
                                                 Padding="8">
                                                     <TextBlock
                                                     FontSize="16"
+                                                    FontWeight="Bold"
                                                     Text="Aa" />
                                                 </materialDesign:Card>
                                                 <CheckBox
@@ -110,19 +113,80 @@
                 </ScrollViewer>
             </GroupBox>
             <GroupBox Header="Описание задания" Grid.Row="1" Grid.Column="2" Margin="5">
-                <StackPanel>
+                <ScrollViewer>
                     <StackPanel>
                         <TextBox
-                            Style="{StaticResource MaterialDesignOutlinedTextBox}"
-                            VerticalAlignment="Top"
-                            Height="100"
-                            AcceptsReturn="True"
-                            TextWrapping="Wrap"
-                            VerticalScrollBarVisibility="Auto"
-                            materialDesign:HintAssist.Hint="Описание"
-                        />
+                                Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                                VerticalAlignment="Top"
+                                Height="100"
+                                AcceptsReturn="True"
+                                TextWrapping="Wrap"
+                                VerticalScrollBarVisibility="Auto"
+                                materialDesign:HintAssist.Hint="Описание"
+                            />
+                        <materialDesign:Card
+                        Background="{DynamicResource PrimaryHueDarkBrush}"
+                        Foreground="{DynamicResource PrimaryHueDarkForegroundBrush}"
+                        Margin="0 5 0 5">
+                            <StackPanel>
+                                <TextBlock
+                                Margin="16 16 12 8"
+                                FontSize="16"
+                                Text="Notes" />
+                            
+                                <CheckBox
+                                    Margin="16 4 16 0"
+                                    Style="{StaticResource MaterialDesignUserForegroundCheckBox}"
+                                    Content="Do something good" />
+                                <CheckBox
+                                    Margin="16 4 16 0"
+                                    Style="{StaticResource MaterialDesignUserForegroundCheckBox}"
+                                    Content="Do something good" />
+                                <CheckBox
+                                    Margin="16 4 16 0"
+                                    Style="{StaticResource MaterialDesignUserForegroundCheckBox}"
+                                    Content="Do something good" />
+
+                                <Separator
+                                Style="{StaticResource MaterialDesignLightSeparator}" />
+                                <Button Margin="10" HorizontalAlignment="Right" Style="{StaticResource MaterialDesignFloatingActionMiniAccentButton}" ToolTip="MaterialDesignFloatingActionMiniAccentButton">
+                                    <materialDesign:PackIcon Kind="Plus" />
+                                </Button>
+                                <ProgressBar Value="50" materialDesign:TransitionAssist.DisableTransitions="True" Height="10" />
+                            </StackPanel>
+                        </materialDesign:Card>
+                        <Image Source="/Resources/Images/download.jpg" Margin="0 5 0 5"/>
+                        <Grid Margin="0 5 0 5">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+                            <materialDesign:Badged
+                            HorizontalAlignment="Center"
+                            Badge="{materialDesign:PackIcon Plus}"
+                            BadgeColorZoneMode="SecondaryMid">
+                                <Button
+                                Style="{StaticResource MaterialDesignFloatingActionMiniLightButton}"
+                                ToolTip="MaterialDesignFloatingActionMiniLightButton">
+                                    <materialDesign:PackIcon Kind="ImageAdd"/>
+                                </Button>
+                            </materialDesign:Badged>
+
+                            <materialDesign:Badged
+                            Grid.Column="1"
+                            HorizontalAlignment="Center"
+                            Badge="{materialDesign:PackIcon Plus}"
+                            BadgeColorZoneMode="SecondaryMid">
+                                <Button
+                                Style="{StaticResource MaterialDesignFloatingActionMiniLightButton}"
+                                ToolTip="MaterialDesignFloatingActionMiniLightButton">
+                                    <materialDesign:PackIcon Kind="Poll"/>
+                                </Button>
+                            </materialDesign:Badged>
+                        </Grid>
+                        <Button Margin="0 5 0 5" Content="Добавить задачу"/>
                     </StackPanel>
-                </StackPanel>
+                </ScrollViewer>
             </GroupBox>
         </Grid>
     </DockPanel>
