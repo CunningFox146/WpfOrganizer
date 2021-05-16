@@ -1,29 +1,67 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using WpfOrganizer.Models;
 
 namespace WpfOrganizer.ViewModels
 {
-    class Item
-    {
-        public string Name { get; set; }
-        public bool Finished { get; set; }
-        //public bool Tag { get; set; }
-    }
     class MainViewModel : ViewModel
     {
-        public List<Item> ItemList { get; set; }
+        private List<Task> tasks;
+        public List<Task> Tasks { get => tasks; set => Set(ref tasks, value); }
+
+        // Используется не только для выборки, но и для создания
+        private Task selectedTask;
+        public Task SelectedTask { get => selectedTask; set => Set(ref selectedTask, value); }
+
+        private List<Tag> tags;
+        public List<Tag> Tags { get => tags; set => Set(ref tags, value); }
+
+        private Tag selectedTag;
+        public Tag SelectedTag { get => selectedTag; set => Set(ref selectedTag, value); }
+
+        private bool creatingTask = false;
+        public bool CreatingTask { get => creatingTask; set => Set(ref creatingTask, value); }
 
         public MainViewModel()
         {
-            ItemList = new List<Item>();
-            for(int i = 0; i < 20; i++)
+            var Rng = new Random();
+
+            Tags = new List<Tag>();
+
+            Tags.Add(new Tag() { Name = "Tag1", Colour = "#f4fc03" });
+            Tags.Add(new Tag() { Name = "Tag2", Colour = "#fca503" });
+            Tags.Add(new Tag() { Name = "Tag3", Colour = "#fc0303" });
+
+            Tasks = new List<Task>();
+
+            for (int i = 0; i < 10; i++)
             {
-                ItemList.Add(new Item()
+                var dbgTask = new Task()
                 {
-                    Name = $"Item {i}",
-                    Finished = i % 2 == 0
-                });
+                    Name = "Task " + i,
+                    Description = "Long and cool desc actually....",
+                    Checked = i % 2 == 0
+                };
+                
+                for (int v = 0; v <= Rng.Next() % 2; v++)
+                {
+                    var checkList = new CheckList();
+                    checkList.Name = "Check list " + v;
+                    checkList.Items.Add(new CheckListItem() { Name = "Name", Checked = false });
+                    checkList.Items.Add(new CheckListItem() { Name = "Name1", Checked = true });
+                    checkList.Items.Add(new CheckListItem() { Name = "Name2", Checked = true });
+                    dbgTask.CheckLists.Add(checkList);
+                }
+
+                if (Rng.Next() < 0.5f)
+                    dbgTask.Tags.Add(Tags[0]);
+                if (Rng.Next() < 0.5f)
+                    dbgTask.Tags.Add(Tags[1]);
+                if (Rng.Next() < 0.5f)
+                    dbgTask.Tags.Add(Tags[2]);
+
+                Tasks.Add(dbgTask);
             }
         }
     }

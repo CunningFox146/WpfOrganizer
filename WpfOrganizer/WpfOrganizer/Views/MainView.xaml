@@ -133,7 +133,7 @@
 
             <GroupBox Header="Ваши задания" Grid.Row="1" Grid.Column="1" Margin="5">
                 <ScrollViewer>
-                    <DataGrid ItemsSource="{Binding ItemList}" HeadersVisibility="None" AutoGenerateColumns="False">
+                    <DataGrid ItemsSource="{Binding Tasks}" HeadersVisibility="None" AutoGenerateColumns="False" SelectedItem="{Binding SelectedTask}">
                         <DataGrid.Columns>
                             <DataGridTemplateColumn Width="*">
                                 <DataGridTemplateColumn.CellTemplate >
@@ -143,7 +143,7 @@
                                                 <ColumnDefinition Width="2*"/>
                                                 <ColumnDefinition Width="auto"/>
                                             </Grid.ColumnDefinitions>
-                                            <TextBlock Grid.Column="0" Text="1231212312311231231231231231231231231231231231231212312312311231231231312" TextWrapping="Wrap" HorizontalAlignment="Left" />
+                                            <TextBlock Grid.Column="0" Text="{Binding Name}" TextWrapping="Wrap" HorizontalAlignment="Left" />
                                             <Grid Grid.Column="1" HorizontalAlignment="Right">
                                                 <Grid.ColumnDefinitions>
                                                     <ColumnDefinition/>
@@ -165,7 +165,7 @@
                                                     Grid.Column="1"    
                                                     Content="{materialDesign:PackIcon Kind=Close, Size=21}"
                                                     Style="{StaticResource MaterialDesignActionLightToggleButton}"
-                                                    IsChecked="True"
+                                                    IsChecked="{Binding Checked}"
                                                     ToolTip="MaterialDesignActionLightToggleButton" />
                                             </Grid>
                                         </Grid>
@@ -180,13 +180,24 @@
                 <ScrollViewer>
                     <StackPanel>
                         <TextBox
+                                Text="{Binding SelectedTask.Name, UpdateSourceTrigger=PropertyChanged}"
+                                Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                                VerticalAlignment="Top"
+                                Height="50"
+                                AcceptsReturn="True"
+                                TextWrapping="Wrap"
+                                VerticalScrollBarVisibility="Auto"
+                                materialDesign:HintAssist.Hint="Название" Cursor="IBeam"
+                            />
+                        <TextBox
+                                Text="{Binding SelectedTask.Description, UpdateSourceTrigger=PropertyChanged}"
                                 Style="{StaticResource MaterialDesignOutlinedTextBox}"
                                 VerticalAlignment="Top"
                                 Height="100"
                                 AcceptsReturn="True"
                                 TextWrapping="Wrap"
                                 VerticalScrollBarVisibility="Auto"
-                                materialDesign:HintAssist.Hint="Описание"
+                                materialDesign:HintAssist.Hint="Описание" Cursor="IBeam"
                             />
                         <materialDesign:Card
                         Background="{DynamicResource PrimaryHueDarkBrush}"
