@@ -5,11 +5,10 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:WpfOrganizer.Views"
              
-             
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignHeight="950" d:DesignWidth="800">
     <DockPanel d:Background="White" ClipToBounds="True">
         <DockPanel DockPanel.Dock="Top">
             <Grid DockPanel.Dock="Left" HorizontalAlignment="Center">
@@ -18,25 +17,58 @@
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
 
-                <Button
+                <!--<Button
                 Style="{StaticResource MaterialDesignFloatingActionMiniLightButton}"
                 ToolTip="MaterialDesignFloatingActionMiniLightButton">
                     <materialDesign:PackIcon
                 Kind="Add"
                 Height="20"
                 Width="20" />
+                </Button>-->
+                <Button
+                Margin="5"
+                Style="{StaticResource MaterialDesignFloatingActionDarkButton}"
+                ToolTip="MaterialDesignFloatingActionDarkButton">
+                    <materialDesign:PackIcon Kind="AddBold"/>
                 </Button>
 
-                <Button
-                Margin="5 0 0 0"
+                <materialDesign:PopupBox
+                Margin="5"
                 Grid.Column="1"
-                Style="{StaticResource MaterialDesignFloatingActionMiniLightButton}"
-                ToolTip="MaterialDesignFloatingActionMiniLightButton">
-                    <materialDesign:PackIcon
-                Kind="TagAdd"
-                Height="20"
-                Width="20" />
-                </Button>
+                StaysOpen="True"
+                Style="{StaticResource MaterialDesignMultiFloatingActionPopupBox}"
+                PlacementMode="BottomAndAlignCentres"
+                ToggleCheckedContentCommandParameter="wowsers"
+                ToolTip="Добавить тэг"
+                Background="{DynamicResource PrimaryHueDarkBrush}"
+                Foreground="{DynamicResource PrimaryHueDarkForegroundBrush}"
+                Cursor="Hand">
+                    <materialDesign:PopupBox.ToggleContent>
+                        <materialDesign:PackIcon Kind="TagAdd"/>
+                    </materialDesign:PopupBox.ToggleContent>
+                    <materialDesign:Card
+                        Background="{DynamicResource PrimaryHueDarkBrush}"
+                        Foreground="{DynamicResource PrimaryHueDarkForegroundBrush}"
+                        Width="200"
+                        Padding="10">
+                        <StackPanel>
+                            <TextBox
+                            Margin="10" 
+                            materialDesign:HintAssist.Hint="Название"
+                            materialDesign:HintAssist.HelperText=""/>
+
+                            <TextBlock Text="Цвет тэга:" Margin="10"/>
+                            <materialDesign:ColorPicker />
+                            <Button
+                            Margin="10"
+                            HorizontalAlignment="Right"
+                            Style="{StaticResource MaterialDesignFloatingActionMiniAccentButton}"
+                            ToolTip="MaterialDesignFloatingActionMiniAccentButton">
+                                <materialDesign:PackIcon Kind="Add"/>
+                            </Button>
+                        </StackPanel>
+                    </materialDesign:Card>
+                </materialDesign:PopupBox>
             </Grid>
             
             
@@ -53,7 +85,7 @@
         
         <Grid Grid.Row="1" DockPanel.Dock="Bottom">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="3*"/>
+                <ColumnDefinition Width="2*"/>
                 <ColumnDefinition Width="3*"/>
                 <ColumnDefinition Width="4*"/>
             </Grid.ColumnDefinitions>
@@ -65,7 +97,10 @@
                         <RowDefinition/>
                     </Grid.RowDefinitions>
 
-                    <Calendar
+                    <DatePicker
+                    materialDesign:HintAssist.Hint="Выберите дату"
+                    Style="{StaticResource MaterialDesignOutlinedDatePicker}" />
+                    <!--<Calendar
                     Padding="5"
                     Grid.Row="0"
                     x:Name="MaterialCalendar" Margin="10 0 10 10" 
@@ -75,15 +110,23 @@
                             <SolidColorBrush x:Key="PrimaryHueMidBrush" Color="Gray" />
                             <SolidColorBrush x:Key="MaterialDesignBody" Color="White" />
                         </Calendar.Resources>
-                    </Calendar>
+                    </Calendar>-->
 
                     <Grid Grid.Row="1">
-                        <Grid.RowDefinitions>
-                            <RowDefinition/>
-                            <RowDefinition/>
-                        </Grid.RowDefinitions>
-                        <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center">Прогресс: 10/20 (15%)</TextBlock>
-                        <ProgressBar HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="1" Value="25" Height="10" />
+                        <!--  BG  -->
+                        <ProgressBar
+                            Width="125"
+                            Height="125"
+                            Value="100"
+                            Foreground="LightGray"
+                            Style="{StaticResource MaterialDesignCircularProgressBar}" />
+                        <ProgressBar
+                            Width="125"
+                            Height="125"
+                            Value="50"
+                            Style="{StaticResource MaterialDesignCircularProgressBar}" />
+                        <TextBlock Text="50%" HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Bold" FontSize="25"/>
+                        <TextBlock Margin="0 0 0 1" HorizontalAlignment="Center" VerticalAlignment="Bottom">35/70</TextBlock>
                     </Grid>
                 </Grid>
             </GroupBox>
@@ -118,10 +161,12 @@
                                                     FontWeight="Bold"
                                                     Text="Aa" />
                                                 </materialDesign:Card>
-                                                <CheckBox
-                                                Grid.Column = "1"
-                                                IsChecked="True">
-                                                </CheckBox>
+                                                <ToggleButton
+                                                    Grid.Column="1"    
+                                                    Content="{materialDesign:PackIcon Kind=Close, Size=21}"
+                                                    Style="{StaticResource MaterialDesignActionLightToggleButton}"
+                                                    IsChecked="True"
+                                                    ToolTip="MaterialDesignActionLightToggleButton" />
                                             </Grid>
                                         </Grid>
                                     </DataTemplate>
@@ -168,13 +213,28 @@
 
                                 <Separator
                                 Style="{StaticResource MaterialDesignLightSeparator}" />
-                                <Button Margin="10" HorizontalAlignment="Right" Style="{StaticResource MaterialDesignFloatingActionMiniAccentButton}" ToolTip="MaterialDesignFloatingActionMiniAccentButton">
+                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                                <Button Margin="10" Style="{StaticResource MaterialDesignFloatingActionMiniAccentButton}" ToolTip="MaterialDesignFloatingActionMiniAccentButton">
+                                    <materialDesign:PackIcon Kind="Trash" />
+                                </Button>
+                                <Button Margin="10" Style="{StaticResource MaterialDesignFloatingActionMiniAccentButton}" ToolTip="MaterialDesignFloatingActionMiniAccentButton">
                                     <materialDesign:PackIcon Kind="Plus" />
                                 </Button>
+                                </StackPanel>
                                 <ProgressBar Value="50" materialDesign:TransitionAssist.DisableTransitions="True" Height="10" />
                             </StackPanel>
                         </materialDesign:Card>
-                        <Image Source="/Resources/Images/download.jpg" Margin="0 5 0 5"/>
+                        <Grid Margin="0 5 0 5">
+                            <Image Source="/Resources/Images/download.jpg"/>
+                            <Button
+                                HorizontalAlignment="Right"
+                                VerticalAlignment="Bottom"
+                                Margin="10"
+                                Style="{StaticResource MaterialDesignFloatingActionMiniAccentButton}"
+                                ToolTip="MaterialDesignFloatingActionMiniAccentButton">
+                                <materialDesign:PackIcon Kind="Trash" />
+                            </Button>
+                        </Grid>
                         <Grid Margin="0 5 0 5">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition/>
