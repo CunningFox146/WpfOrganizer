@@ -133,7 +133,7 @@
 
             <GroupBox Header="Ваши задания" Grid.Row="1" Grid.Column="1" Margin="5">
                 <ScrollViewer>
-                    <DataGrid ItemsSource="{Binding Tasks}" HeadersVisibility="None" AutoGenerateColumns="False" SelectedItem="{Binding SelectedTask}" CanUserSortColumns="False">
+                    <DataGrid ItemsSource="{Binding Tasks}" HeadersVisibility="None" AutoGenerateColumns="False" SelectedItem="{Binding SelectedTask}" CanUserAddRows="False">
                         <DataGrid.Columns>
                             <DataGridTemplateColumn Width="*">
                                 <DataGridTemplateColumn.CellTemplate >
@@ -199,69 +199,85 @@
                                 VerticalScrollBarVisibility="Auto"
                                 materialDesign:HintAssist.Hint="Описание" Cursor="IBeam"
                             />
+                        <Expander
+                        Margin="0 5 0 5"
+                        HorizontalAlignment="Stretch"
+                        Header="Списки"
+                        BorderThickness="1"
+                        BorderBrush="Black"
+                        >
+                            <DataGrid ItemsSource="{Binding SelectedTask.CheckLists}" HeadersVisibility="None" AutoGenerateColumns="False" CanUserAddRows="False">
+                                <DataGrid.Columns>
+                                    <DataGridTemplateColumn Width="*">
+                                        <DataGridTemplateColumn.CellTemplate >
 
-                        <DataGrid ItemsSource="{Binding SelectedTask.CheckLists}" HeadersVisibility="None" AutoGenerateColumns="False" CanUserSortColumns="False">
-                            <DataGrid.Columns>
-                                <DataGridTemplateColumn Width="*">
-                                    <DataGridTemplateColumn.CellTemplate >
-                                        
-                                        <DataTemplate>
-                                            <materialDesign:Card
+                                            <DataTemplate>
+                                                <materialDesign:Card
                                             Background="{DynamicResource PrimaryHueDarkBrush}"
                                             Foreground="{DynamicResource PrimaryHueDarkForegroundBrush}"
-                                            Margin="0 5 0 5">   
-                                                <StackPanel>
-                                                    <TextBlock
+                                            Margin="0 5 0 5">
+                                                    <StackPanel>
+                                                        <TextBox
                                                     Margin="16 16 12 8"
                                                     FontSize="16"
-                                                    Text="{Binding Name}" />
-                                                    <DataGrid ItemsSource="{Binding Items}" HeadersVisibility="None" AutoGenerateColumns="False" CanUserSortColumns="False">
-                                                        <DataGrid.Columns>
-                                                            <DataGridTemplateColumn Width="*">
-                                                                <DataGridTemplateColumn.CellTemplate >
-                                                                    <DataTemplate>
-                                                                        <CheckBox
-                                                                        IsChecked="{Binding Checked}"
+                                                    Text="{Binding Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                                        <DataGrid ItemsSource="{Binding Items, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" HeadersVisibility="None" AutoGenerateColumns="False" CanUserAddRows="False">
+                                                            <DataGrid.Columns>
+                                                                <DataGridTemplateColumn Width="*">
+                                                                    <DataGridTemplateColumn.CellTemplate >
+                                                                        <DataTemplate>
+                                                                            <CheckBox
+                                                                        IsChecked="{Binding Checked, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                                                         Margin="16 4 16 0"
                                                                         Style="{StaticResource MaterialDesignUserForegroundCheckBox}"
-                                                                        Content="{Binding Name}"/>
-                                                                    </DataTemplate>
-                                                                </DataGridTemplateColumn.CellTemplate>
-                                                            </DataGridTemplateColumn>
-                                                        </DataGrid.Columns>
-                                                    </DataGrid>
+                                                                        >
+                                                                                <TextBox Text="{Binding Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                                                                            </CheckBox>
+                                                                        </DataTemplate>
+                                                                    </DataGridTemplateColumn.CellTemplate>
+                                                                </DataGridTemplateColumn>
+                                                            </DataGrid.Columns>
+                                                        </DataGrid>
 
-                                                    <Separator
+                                                        <Separator
                                                     Style="{StaticResource MaterialDesignLightSeparator}" />
-                                                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                                                        <Button Margin="10" Style="{StaticResource MaterialDesignFloatingActionMiniAccentButton}" ToolTip="MaterialDesignFloatingActionMiniAccentButton">
-                                                            <materialDesign:PackIcon Kind="Trash" />
-                                                        </Button>
-                                                        <Button Margin="10" Style="{StaticResource MaterialDesignFloatingActionMiniAccentButton}" ToolTip="MaterialDesignFloatingActionMiniAccentButton">
-                                                            <materialDesign:PackIcon Kind="Plus" />
-                                                        </Button>
+                                                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                                                            <Button Margin="10" Style="{StaticResource MaterialDesignFloatingActionMiniAccentButton}" ToolTip="MaterialDesignFloatingActionMiniAccentButton">
+                                                                <materialDesign:PackIcon Kind="Trash" />
+                                                            </Button>
+                                                            <Button Margin="10" Style="{StaticResource MaterialDesignFloatingActionMiniAccentButton}" ToolTip="MaterialDesignFloatingActionMiniAccentButton">
+                                                                <materialDesign:PackIcon Kind="Plus" />
+                                                            </Button>
+                                                        </StackPanel>
+                                                        <ProgressBar Value="50" materialDesign:TransitionAssist.DisableTransitions="True" Height="10" />
                                                     </StackPanel>
-                                                    <ProgressBar Value="50" materialDesign:TransitionAssist.DisableTransitions="True" Height="10" />
-                                                </StackPanel>
-                                            </materialDesign:Card>
-                                        </DataTemplate>
-                                    </DataGridTemplateColumn.CellTemplate>
-                                </DataGridTemplateColumn>
-                            </DataGrid.Columns>
-                        </DataGrid>
-                        
-                        
-                        <Grid Margin="0 5 0 5">
-                            <Image Source="/Resources/Images/download.jpg"/>
-                            <Button
+                                                </materialDesign:Card>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+                                </DataGrid.Columns>
+                            </DataGrid>
+                        </Expander>
+
+                        <Expander
+                        Margin="0 5 0 5"
+                        HorizontalAlignment="Stretch"
+                        Header="Списки"
+                        BorderThickness="1"
+                        BorderBrush="Black"
+                        >
+                            <Grid Margin="0 5 0 5">
+                                <Image Source="/Resources/Images/download.jpg"/>
+                                <Button
                                 HorizontalAlignment="Right"
                                 VerticalAlignment="Bottom"
                                 Margin="10"
                                 Style="{StaticResource MaterialDesignFloatingActionMiniAccentButton}"
                                 ToolTip="MaterialDesignFloatingActionMiniAccentButton">
-                                <materialDesign:PackIcon Kind="Trash" />
-                            </Button>
-                        </Grid>
+                                    <materialDesign:PackIcon Kind="Trash" />
+                                </Button>
+                            </Grid>
+                        </Expander>
                         <Grid Margin="0 5 0 5">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition/>

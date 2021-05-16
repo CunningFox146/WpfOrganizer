@@ -1,23 +1,45 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
 using System.Text;
 
 namespace WpfOrganizer.Models
 {
-    class CheckListItem
+    class CheckListItem : INotifyPropertyChanged
     {
-        public string Name { get; set; }
-        public bool Checked { get; set; }
+        private string name;
+        public string Name { get=>name; set { name = value; OnPropertyChanged("Name"); } }
+
+        private bool isChecked;
+        public bool Checked { get=> isChecked; set { isChecked = value; OnPropertyChanged("Checked"); } }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        protected virtual void OnPropertyChanged([CallerMemberName] string PropertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(PropertyName));
+        }
     }
 
-    class CheckList
+    class CheckList : INotifyPropertyChanged
     {
-        public string Name { get; set; }
-        public List<CheckListItem> Items { get; set; }
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        private string name;
+        public string Name { get => name; set { name = value; OnPropertyChanged("Name"); } }
+
+        private List<CheckListItem> items;
+        public List<CheckListItem> Items { get => items; set { items = value; OnPropertyChanged("Items"); } }
 
         public CheckList()
         {
             Items = new List<CheckListItem>();
+        }
+
+        protected virtual void OnPropertyChanged([CallerMemberName] string PropertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(PropertyName));
         }
     }
 }
