@@ -133,7 +133,7 @@
 
             <GroupBox Header="Ваши задания" Grid.Row="1" Grid.Column="1" Margin="5">
                 <ScrollViewer>
-                    <DataGrid ItemsSource="{Binding Tasks}" HeadersVisibility="None" AutoGenerateColumns="False" SelectedItem="{Binding SelectedTask}">
+                    <DataGrid ItemsSource="{Binding Tasks}" HeadersVisibility="None" AutoGenerateColumns="False" SelectedItem="{Binding SelectedTask}" CanUserSortColumns="False">
                         <DataGrid.Columns>
                             <DataGridTemplateColumn Width="*">
                                 <DataGridTemplateColumn.CellTemplate >
@@ -199,42 +199,58 @@
                                 VerticalScrollBarVisibility="Auto"
                                 materialDesign:HintAssist.Hint="Описание" Cursor="IBeam"
                             />
-                        <materialDesign:Card
-                        Background="{DynamicResource PrimaryHueDarkBrush}"
-                        Foreground="{DynamicResource PrimaryHueDarkForegroundBrush}"
-                        Margin="0 5 0 5">
-                            <StackPanel>
-                                <TextBlock
-                                Margin="16 16 12 8"
-                                FontSize="16"
-                                Text="Notes" />
-                            
-                                <CheckBox
-                                    Margin="16 4 16 0"
-                                    Style="{StaticResource MaterialDesignUserForegroundCheckBox}"
-                                    Content="Do something good" />
-                                <CheckBox
-                                    Margin="16 4 16 0"
-                                    Style="{StaticResource MaterialDesignUserForegroundCheckBox}"
-                                    Content="Do something good" />
-                                <CheckBox
-                                    Margin="16 4 16 0"
-                                    Style="{StaticResource MaterialDesignUserForegroundCheckBox}"
-                                    Content="Do something good" />
 
-                                <Separator
-                                Style="{StaticResource MaterialDesignLightSeparator}" />
-                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                                <Button Margin="10" Style="{StaticResource MaterialDesignFloatingActionMiniAccentButton}" ToolTip="MaterialDesignFloatingActionMiniAccentButton">
-                                    <materialDesign:PackIcon Kind="Trash" />
-                                </Button>
-                                <Button Margin="10" Style="{StaticResource MaterialDesignFloatingActionMiniAccentButton}" ToolTip="MaterialDesignFloatingActionMiniAccentButton">
-                                    <materialDesign:PackIcon Kind="Plus" />
-                                </Button>
-                                </StackPanel>
-                                <ProgressBar Value="50" materialDesign:TransitionAssist.DisableTransitions="True" Height="10" />
-                            </StackPanel>
-                        </materialDesign:Card>
+                        <DataGrid ItemsSource="{Binding SelectedTask.CheckLists}" HeadersVisibility="None" AutoGenerateColumns="False" CanUserSortColumns="False">
+                            <DataGrid.Columns>
+                                <DataGridTemplateColumn Width="*">
+                                    <DataGridTemplateColumn.CellTemplate >
+                                        
+                                        <DataTemplate>
+                                            <materialDesign:Card
+                                            Background="{DynamicResource PrimaryHueDarkBrush}"
+                                            Foreground="{DynamicResource PrimaryHueDarkForegroundBrush}"
+                                            Margin="0 5 0 5">   
+                                                <StackPanel>
+                                                    <TextBlock
+                                                    Margin="16 16 12 8"
+                                                    FontSize="16"
+                                                    Text="{Binding Name}" />
+                                                    <DataGrid ItemsSource="{Binding Items}" HeadersVisibility="None" AutoGenerateColumns="False" CanUserSortColumns="False">
+                                                        <DataGrid.Columns>
+                                                            <DataGridTemplateColumn Width="*">
+                                                                <DataGridTemplateColumn.CellTemplate >
+                                                                    <DataTemplate>
+                                                                        <CheckBox
+                                                                        IsChecked="{Binding Checked}"
+                                                                        Margin="16 4 16 0"
+                                                                        Style="{StaticResource MaterialDesignUserForegroundCheckBox}"
+                                                                        Content="{Binding Name}"/>
+                                                                    </DataTemplate>
+                                                                </DataGridTemplateColumn.CellTemplate>
+                                                            </DataGridTemplateColumn>
+                                                        </DataGrid.Columns>
+                                                    </DataGrid>
+
+                                                    <Separator
+                                                    Style="{StaticResource MaterialDesignLightSeparator}" />
+                                                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                                                        <Button Margin="10" Style="{StaticResource MaterialDesignFloatingActionMiniAccentButton}" ToolTip="MaterialDesignFloatingActionMiniAccentButton">
+                                                            <materialDesign:PackIcon Kind="Trash" />
+                                                        </Button>
+                                                        <Button Margin="10" Style="{StaticResource MaterialDesignFloatingActionMiniAccentButton}" ToolTip="MaterialDesignFloatingActionMiniAccentButton">
+                                                            <materialDesign:PackIcon Kind="Plus" />
+                                                        </Button>
+                                                    </StackPanel>
+                                                    <ProgressBar Value="50" materialDesign:TransitionAssist.DisableTransitions="True" Height="10" />
+                                                </StackPanel>
+                                            </materialDesign:Card>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                        
+                        
                         <Grid Margin="0 5 0 5">
                             <Image Source="/Resources/Images/download.jpg"/>
                             <Button

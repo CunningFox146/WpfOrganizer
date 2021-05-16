@@ -44,7 +44,7 @@ namespace WpfOrganizer.ViewModels
                     Checked = i % 2 == 0
                 };
                 
-                for (int v = 0; v <= Rng.Next() % 2; v++)
+                for (int v = 0; v <= Rng.Next()%5; v++)
                 {
                     var checkList = new CheckList();
                     checkList.Name = "Check list " + v;
@@ -54,12 +54,6 @@ namespace WpfOrganizer.ViewModels
                     dbgTask.CheckLists.Add(checkList);
                 }
 
-                if (Rng.Next() < 0.5f)
-                    dbgTask.Tags.Add(Tags[0]);
-                if (Rng.Next() < 0.5f)
-                    dbgTask.Tags.Add(Tags[1]);
-                if (Rng.Next() < 0.5f)
-                    dbgTask.Tags.Add(Tags[2]);
 
                 Tasks.Add(dbgTask);
             }
