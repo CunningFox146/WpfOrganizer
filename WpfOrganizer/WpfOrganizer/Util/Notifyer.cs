@@ -4,9 +4,9 @@ using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Text;
 
-namespace WpfOrganizer.ViewModels
+namespace WpfOrganizer.Util
 {
-    abstract class ViewModel : INotifyPropertyChanged
+    abstract class Notifyer : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
         protected virtual void OnPropertyChanged([CallerMemberName] string PropertyName = null)

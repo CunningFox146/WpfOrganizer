@@ -4,11 +4,16 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:WpfOrganizer.Views"
+             xmlns:c="clr-namespace:WpfOrganizer.Converters"
              
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              
              mc:Ignorable="d" 
              d:DesignHeight="950" d:DesignWidth="800">
+    <UserControl.Resources>
+        <c:ImageToResolvedImage x:Key="ImageToResolvedImage" />
+        <c:ItemModeToIcon x:Key="ItemModeToIcon" />
+    </UserControl.Resources>
     <DockPanel d:Background="White" ClipToBounds="True">
         <DockPanel DockPanel.Dock="Top">
             <Grid DockPanel.Dock="Left" HorizontalAlignment="Center">
@@ -28,9 +33,8 @@
                 <Button
                 Margin="5"
                 Style="{StaticResource MaterialDesignFloatingActionDarkButton}"
-                ToolTip="MaterialDesignFloatingActionDarkButton">
-                    <materialDesign:PackIcon Kind="AddBold"/>
-                </Button>
+                ToolTip="MaterialDesignFloatingActionDarkButton"
+                Content="{materialDesign:PackIcon Kind=AddBold, Size=21}" Cursor="Hand"/>
 
                 <materialDesign:PopupBox
                 Margin="5"
@@ -221,7 +225,7 @@
                                                     Margin="16 16 12 8"
                                                     FontSize="16"
                                                     Text="{Binding Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-                                                        <DataGrid ItemsSource="{Binding Items, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" HeadersVisibility="None" AutoGenerateColumns="False" CanUserAddRows="False">
+                                                        <DataGrid ItemsSource="{Binding Items, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" AutoGenerateColumns="False" CanUserAddRows="False">
                                                             <DataGrid.Columns>
                                                                 <DataGridTemplateColumn Width="*">
                                                                     <DataGridTemplateColumn.CellTemplate >
@@ -262,21 +266,31 @@
                         <Expander
                         Margin="0 5 0 5"
                         HorizontalAlignment="Stretch"
-                        Header="Списки"
+                        Header="Изображения"
                         BorderThickness="1"
                         BorderBrush="Black"
                         >
-                            <Grid Margin="0 5 0 5">
-                                <Image Source="/Resources/Images/download.jpg"/>
-                                <Button
-                                HorizontalAlignment="Right"
-                                VerticalAlignment="Bottom"
-                                Margin="10"
-                                Style="{StaticResource MaterialDesignFloatingActionMiniAccentButton}"
-                                ToolTip="MaterialDesignFloatingActionMiniAccentButton">
-                                    <materialDesign:PackIcon Kind="Trash" />
-                                </Button>
-                            </Grid>
+                            <DataGrid ItemsSource="{Binding SelectedTask.Images, UpdateSourceTrigger=PropertyChanged}" HeadersVisibility="None" AutoGenerateColumns="False" SelectedItem="{Binding SelectedTask}" CanUserAddRows="False">
+                                <DataGrid.Columns>
+                                    <DataGridTemplateColumn Width="*">
+                                        <DataGridTemplateColumn.CellTemplate >
+                                            <DataTemplate>
+                                                <Grid>
+                                                    <Image Source="{Binding ImageUrl, Converter={StaticResource ImageToResolvedImage}}"/>
+                                                    <Button
+                                                    HorizontalAlignment="Right"
+                                                    VerticalAlignment="Bottom"
+                                                    Margin="10"
+                                                    Style="{StaticResource MaterialDesignFloatingActionMiniAccentButton}"
+                                                    ToolTip="MaterialDesignFloatingActionMiniAccentButton">
+                                                        <materialDesign:PackIcon Kind="Trash" />
+                                                    </Button>
+                                                </Grid>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+                                </DataGrid.Columns>
+                            </DataGrid>
                         </Expander>
                         <Grid Margin="0 5 0 5">
                             <Grid.ColumnDefinitions>
@@ -290,7 +304,8 @@
                             BadgeColorZoneMode="SecondaryMid">
                                 <Button
                                 Style="{StaticResource MaterialDesignFloatingActionDarkButton}"
-                                ToolTip="MaterialDesignFloatingActionMiniLightButton">
+                                ToolTip="MaterialDesignFloatingActionMiniLightButton"
+                                Command="{Binding AddImageCommand}">
                                     <materialDesign:PackIcon Kind="ImageAdd"/>
                                 </Button>
                             </materialDesign:Badged>

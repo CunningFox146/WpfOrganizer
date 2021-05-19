@@ -1,45 +1,32 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using System.Text;
+using WpfOrganizer.Util;
 
 namespace WpfOrganizer.Models
 {
-    class CheckListItem : INotifyPropertyChanged
+    class CheckListItem : Notifyer
     {
         private string name;
-        public string Name { get=>name; set { name = value; OnPropertyChanged("Name"); } }
+        public string Name { get => name; set => Set(ref name, value); }
 
         private bool isChecked;
-        public bool Checked { get=> isChecked; set { isChecked = value; OnPropertyChanged("Checked"); } }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        protected virtual void OnPropertyChanged([CallerMemberName] string PropertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(PropertyName));
-        }
+        public bool Checked { get => isChecked; set => Set(ref isChecked, value); }
     }
 
-    class CheckList : INotifyPropertyChanged
+    class CheckList : Notifyer
     {
-        public event PropertyChangedEventHandler PropertyChanged;
-
         private string name;
-        public string Name { get => name; set { name = value; OnPropertyChanged("Name"); } }
+        public string Name { get => name; set => Set(ref name, value); }
 
-        private List<CheckListItem> items;
-        public List<CheckListItem> Items { get => items; set { items = value; OnPropertyChanged("Items"); } }
+        private ObservableCollection<CheckListItem> items;
+        public ObservableCollection<CheckListItem> Items { get => items; set => Set(ref items, value); }
 
         public CheckList()
         {
-            Items = new List<CheckListItem>();
-        }
-
-        protected virtual void OnPropertyChanged([CallerMemberName] string PropertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(PropertyName));
+            Items = new ObservableCollection<CheckListItem>();
         }
     }
 }
