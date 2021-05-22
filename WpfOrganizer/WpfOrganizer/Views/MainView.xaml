@@ -15,7 +15,7 @@
         <c:ItemModeToIcon x:Key="ItemModeToIcon" />
         <c:CreationModeToVisibility x:Key="CreationModeToVisibility" />
         <c:ColorToBrush x:Key="ColorToBrush" />
-        <c:TagIsChecked x:Key="TagIsChecked" />
+        <c:TagNameTrimmer x:Key="TagNameTrimmer" />
     </UserControl.Resources>
     <DockPanel d:Background="White" ClipToBounds="True">
         <DockPanel DockPanel.Dock="Top">
@@ -209,44 +209,38 @@
                                 VerticalScrollBarVisibility="Auto"
                                 materialDesign:HintAssist.Hint="Описание" Cursor="IBeam"
                             />
-                        <Expander
+                        <ComboBox
                         Margin="0 5 0 5"
-                        HorizontalAlignment="Stretch"
-                        Header="Теги"
-                        BorderThickness="1"
-                        BorderBrush="Black"
-                        >
-
-                            
-                            <ListBox
-                            Foreground="Transparent"
-                            Background="Transparent"
-                            ItemsSource="{Binding Tags}">
-                                <ListBox.ItemTemplate>
-                                    <DataTemplate>
-                                        <CheckBox
-                                        Style="{StaticResource MaterialDesignFilterChipAccentCheckBox}"
-                                        IsChecked="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext, Converter={StaticResource TagIsChecked}}"
-                                        Command="">
-                                            <StackPanel Orientation="Horizontal">
+                        materialDesign:HintAssist.Hint="Выберите тег"
+                        SelectedItem="{Binding SelectedTask.Tag}"
+                        Style="{StaticResource MaterialDesignOutlinedComboBox}"
+                        ItemsSource="{Binding Tags}"
+                        materialDesign:TextFieldAssist.HasClearButton="True">
+                            <ComboBox.ItemTemplate>
+                                <DataTemplate>
+                                    <DockPanel>
+                                        <StackPanel Orientation="Horizontal" DockPanel.Dock="Left">
+                                            <Grid>
                                                 <Ellipse
                                                 Width="25"
                                                 Height="25"
                                                 Fill="{Binding Color, Converter={StaticResource ColorToBrush}}" />
-                                                <TextBlock Margin="5 0 0 0" Text="{Binding Name}" VerticalAlignment="Center"/>
-                                            </StackPanel>
-                                        </CheckBox>
-                                    </DataTemplate>
-                                </ListBox.ItemTemplate>
-                                
-                                <ListBox.ItemsPanel>
-                                    <ItemsPanelTemplate>
-                                        <WrapPanel />
-                                    </ItemsPanelTemplate>
-                                </ListBox.ItemsPanel>
-                            </ListBox>
-                            
-                        </Expander>
+                                                <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="DemiBold" Text="{Binding Name, Converter={StaticResource TagNameTrimmer}}"/>
+                                            </Grid>
+                                            <TextBlock Margin="5 0 0 0" Text="{Binding Name}" VerticalAlignment="Center"/>
+                                        </StackPanel>
+                                        <Button
+                                        DockPanel.Dock="Right"
+                                        Style="{StaticResource MaterialDesignIconButton}"
+                                        HorizontalAlignment="Right"
+                                        ToolTip="MaterialDesignIconButton">
+                                            <materialDesign:PackIcon Kind="Trash" />
+                                        </Button>
+                                    </DockPanel>
+                                </DataTemplate>
+                            </ComboBox.ItemTemplate>
+                        </ComboBox>
+
                         <Expander
                         Margin="0 5 0 5"
                         HorizontalAlignment="Stretch"
