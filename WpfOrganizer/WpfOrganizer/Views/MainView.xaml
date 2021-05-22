@@ -15,6 +15,7 @@
         <c:ItemModeToIcon x:Key="ItemModeToIcon" />
         <c:CreationModeToVisibility x:Key="CreationModeToVisibility" />
         <c:ColorToBrush x:Key="ColorToBrush" />
+        <c:TagIsChecked x:Key="TagIsChecked" />
     </UserControl.Resources>
     <DockPanel d:Background="White" ClipToBounds="True">
         <DockPanel DockPanel.Dock="Top">
@@ -215,28 +216,34 @@
                         BorderThickness="1"
                         BorderBrush="Black"
                         >
+
+                            
                             <ListBox
-                            Style="{StaticResource MaterialDesignFilterChipOutlineListBox}"
+                            Foreground="Transparent"
+                            Background="Transparent"
                             ItemsSource="{Binding Tags}">
                                 <ListBox.ItemTemplate>
                                     <DataTemplate>
-                                        <StackPanel Orientation="Horizontal">
-                                            <Ellipse
-                                            Width="25"
-                                            Height="25"
-                                            Fill="{Binding Color, Converter={StaticResource ColorToBrush}}" />
-                                            <!--<Button
-                                                        Background="{Binding Color, Converter={StaticResource ColorToBrush}}"
-                                                        Style="{DynamicResource MaterialDesignFloatingActionMiniLightButton}"
-                                                        Width="25"
-                                                        Height="25"
-                                                        IsHitTestVisible ="False" Cursor="Hand"
-                                                        Content="1"
-                                                        />-->
+                                        <CheckBox
+                                        Style="{StaticResource MaterialDesignFilterChipAccentCheckBox}"
+                                        IsChecked="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext, Converter={StaticResource TagIsChecked}}"
+                                        Command="">
+                                            <StackPanel Orientation="Horizontal">
+                                                <Ellipse
+                                                Width="25"
+                                                Height="25"
+                                                Fill="{Binding Color, Converter={StaticResource ColorToBrush}}" />
                                                 <TextBlock Margin="5 0 0 0" Text="{Binding Name}" VerticalAlignment="Center"/>
                                             </StackPanel>
+                                        </CheckBox>
                                     </DataTemplate>
                                 </ListBox.ItemTemplate>
+                                
+                                <ListBox.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <WrapPanel />
+                                    </ItemsPanelTemplate>
+                                </ListBox.ItemsPanel>
                             </ListBox>
                             
                         </Expander>

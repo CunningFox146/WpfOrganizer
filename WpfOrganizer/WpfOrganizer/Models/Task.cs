@@ -4,15 +4,18 @@ using System.Collections.ObjectModel;
 using System.Text;
 using System.Windows.Controls;
 using System.Windows.Media.Imaging;
+using WpfOrganizer.Util;
 
 namespace WpfOrganizer.Models
 {
-    class Task
+    class Task : Notifyer
     {
         public string Name { get; set; }
         public string Description { get; set; }
 
-        public Tag Tag { get; set; }
+        public ObservableCollection<Tag> tags;
+        public ObservableCollection<Tag> Tags { get => tags; set => Set(ref tags, value); }
+
         public bool Checked { get; set; } = false;
 
         public ObservableCollection<CheckList> CheckLists { get; set; }
@@ -22,6 +25,9 @@ namespace WpfOrganizer.Models
         {
             CheckLists = new ObservableCollection<CheckList>();
             Images = new ObservableCollection<TaskImage>();
+            Tags = new ObservableCollection<Tag>();
         }
+
+        public bool HasTag(Tag tag) => Tags.Contains(tag);
     }
 }
