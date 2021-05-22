@@ -1,12 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using WpfOrganizer.Util;
+using System.Windows.Media;
 
 namespace WpfOrganizer.Models
 {
-    class Tag
+    class Tag : Notifyer
     {
-        public string Name { get; set; }
-        public string Colour { get; set; }
+        private string name;
+        public string Name { get => name; set => Set(ref name, value); }
+
+        private Color color;
+        public Color Color { get => color; set { Set(ref color, value); System.Diagnostics.Trace.WriteLine("Color was set to" + Color.ToString()); } }
+
+        public Tag()
+        {
+            Color = Color.FromRgb(255, 0, 0);
+        }
     }
 }

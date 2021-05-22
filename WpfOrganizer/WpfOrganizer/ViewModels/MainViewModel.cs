@@ -11,12 +11,13 @@ namespace WpfOrganizer.ViewModels
 {
     class MainViewModel : Notifyer
     {
-        static MainViewModel currentInstance;
-        static MainViewModel inst
+        private static MainViewModel currentInstance;
+        public static MainViewModel inst
         {
             get => currentInstance;
             set { }
         }
+
         #region Команды
 
         public ICommand AddImageCommand { get; }
@@ -36,6 +37,23 @@ namespace WpfOrganizer.ViewModels
                 //ImgPreview.Source = selectedImg;
             }
         }
+
+        public ICommand SetCreationMode { get; }
+        private bool OnCanSetCreationMode(object p) => SelectedTask != null;
+        private void OnSetCreationMode(object p)
+        {
+            CreatingTask = !CreatingTask;
+            SelectedTask = null;
+        }
+
+        public ICommand CreateTagCommand { get; }
+        private bool OnCanCreateTagCommand(object p) => !String.IsNullOrEmpty(CreatingTag.Name);
+        private void OnCreateTagCommand(object p)
+        {
+            Tags.Add(CreatingTag);
+            CreatingTag = new Tag();
+        }
+
         #endregion
 
         private ObservableCollection<Task> tasks;
@@ -48,8 +66,8 @@ namespace WpfOrganizer.ViewModels
         private ObservableCollection<Tag> tags;
         public ObservableCollection<Tag> Tags { get => tags; set => Set(ref tags, value); }
 
-        private Tag selectedTag;
-        public Tag SelectedTag { get => selectedTag; set => Set(ref selectedTag, value); }
+        private Tag creatingTag;
+        public Tag CreatingTag { get => creatingTag; set => Set(ref creatingTag, value); }
 
         private bool creatingTask = false;
         public bool CreatingTask { get => creatingTask; set => Set(ref creatingTask, value); }
@@ -57,17 +75,24 @@ namespace WpfOrganizer.ViewModels
         public MainViewModel()
         {
             #region Команды
+
             AddImageCommand = new LambdaCommand(OnAddImageCommand, OnCanAddImageCommand);
+            SetCreationMode = new LambdaCommand(OnSetCreationMode, OnCanSetCreationMode);
+            CreateTagCommand = new LambdaCommand(OnCreateTagCommand, OnCanCreateTagCommand);
+
             #endregion
+
+            CreatingTag = new Tag();
+
             currentInstance = this;
 
             var Rng = new Random();
 
             Tags = new ObservableCollection<Tag>();
 
-            Tags.Add(new Tag() { Name = "Tag1", Colour = "#f4fc03" });
-            Tags.Add(new Tag() { Name = "Tag2", Colour = "#fca503" });
-            Tags.Add(new Tag() { Name = "Tag3", Colour = "#fc0303" });
+            //Tags.Add(new Tag() { Name = "Tag1", Colour = "#f4fc03" });
+            //Tags.Add(new Tag() { Name = "Tag2", Colour = "#fca503" });
+            //Tags.Add(new Tag() { Name = "Tag3", Colour = "#fc0303" });
 
             Tasks = new ObservableCollection<Task>();
 

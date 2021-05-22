@@ -10,8 +10,7 @@ namespace WpfOrganizer.Converters
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            bool mode = (bool)value;
-            return new MaterialDesignThemes.Wpf.PackIcon { Kind = mode ? MaterialDesignThemes.Wpf.PackIconKind.AddBold : MaterialDesignThemes.Wpf.PackIconKind.AlertCircle };
+            return new MaterialDesignThemes.Wpf.PackIcon { Kind = value == null ? MaterialDesignThemes.Wpf.PackIconKind.AlertCircle : MaterialDesignThemes.Wpf.PackIconKind.AddBold};
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

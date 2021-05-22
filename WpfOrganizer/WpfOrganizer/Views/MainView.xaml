@@ -13,6 +13,8 @@
     <UserControl.Resources>
         <c:ImageToResolvedImage x:Key="ImageToResolvedImage" />
         <c:ItemModeToIcon x:Key="ItemModeToIcon" />
+        <c:CreationModeToVisibility x:Key="CreationModeToVisibility" />
+        <c:ColorToBrush x:Key="ColorToBrush" />
     </UserControl.Resources>
     <DockPanel d:Background="White" ClipToBounds="True">
         <DockPanel DockPanel.Dock="Top">
@@ -34,7 +36,7 @@
                 Margin="5"
                 Style="{StaticResource MaterialDesignFloatingActionDarkButton}"
                 ToolTip="MaterialDesignFloatingActionDarkButton"
-                Content="{materialDesign:PackIcon Kind=AddBold, Size=21}" Cursor="Hand"/>
+                Content="{Binding SelectedTask, Converter={StaticResource ItemModeToIcon}}" Command="{Binding SetCreationMode}" Cursor="Hand"/>
 
                 <materialDesign:PopupBox
                 Margin="5"
@@ -57,15 +59,17 @@
                         Padding="10">
                         <StackPanel>
                             <TextBox
-                            Margin="10" 
+                            Margin="10"
+                            Text="{Binding CreatingTag.Name, UpdateSourceTrigger=PropertyChanged}"
                             materialDesign:HintAssist.Hint="Название"
                             materialDesign:HintAssist.HelperText=""/>
 
                             <TextBlock Text="Цвет тэга:" Margin="10"/>
-                            <materialDesign:ColorPicker />
+                            <materialDesign:ColorPicker Height="200" Color="{Binding CreatingTag.Color, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
                             <Button
                             Margin="10"
                             HorizontalAlignment="Right"
+                            Command="{Binding CreateTagCommand}"
                             Style="{StaticResource MaterialDesignFloatingActionMiniAccentButton}"
                             ToolTip="MaterialDesignFloatingActionMiniAccentButton">
                                 <materialDesign:PackIcon Kind="Add"/>
@@ -194,6 +198,7 @@
                                 materialDesign:HintAssist.Hint="Название" Cursor="IBeam"
                             />
                         <TextBox
+                                Margin="0 0 0 5"
                                 Text="{Binding SelectedTask.Description, UpdateSourceTrigger=PropertyChanged}"
                                 Style="{StaticResource MaterialDesignOutlinedTextBox}"
                                 VerticalAlignment="Top"
@@ -203,6 +208,38 @@
                                 VerticalScrollBarVisibility="Auto"
                                 materialDesign:HintAssist.Hint="Описание" Cursor="IBeam"
                             />
+                        <Expander
+                        Margin="0 5 0 5"
+                        HorizontalAlignment="Stretch"
+                        Header="Теги"
+                        BorderThickness="1"
+                        BorderBrush="Black"
+                        >
+                            <ListBox
+                            Style="{StaticResource MaterialDesignFilterChipOutlineListBox}"
+                            ItemsSource="{Binding Tags}">
+                                <ListBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Orientation="Horizontal">
+                                            <Ellipse
+                                            Width="25"
+                                            Height="25"
+                                            Fill="{Binding Color, Converter={StaticResource ColorToBrush}}" />
+                                            <!--<Button
+                                                        Background="{Binding Color, Converter={StaticResource ColorToBrush}}"
+                                                        Style="{DynamicResource MaterialDesignFloatingActionMiniLightButton}"
+                                                        Width="25"
+                                                        Height="25"
+                                                        IsHitTestVisible ="False" Cursor="Hand"
+                                                        Content="1"
+                                                        />-->
+                                                <TextBlock Margin="5 0 0 0" Text="{Binding Name}" VerticalAlignment="Center"/>
+                                            </StackPanel>
+                                    </DataTemplate>
+                                </ListBox.ItemTemplate>
+                            </ListBox>
+                            
+                        </Expander>
                         <Expander
                         Margin="0 5 0 5"
                         HorizontalAlignment="Stretch"
@@ -296,7 +333,6 @@
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition/>
                                 <ColumnDefinition/>
-                                <ColumnDefinition/>
                             </Grid.ColumnDefinitions>
                             <materialDesign:Badged
                             HorizontalAlignment="Center"
@@ -334,26 +370,9 @@
                                 Button>
                             </materialDesign:Badged>-->
 
-                            <materialDesign:Badged
-                            Grid.Column="2"
-                            HorizontalAlignment="Center"
-                            Badge="{materialDesign:PackIcon Plus}"
-                            BadgeColorZoneMode="SecondaryMid">
-                                <materialDesign:PopupBox
-                            Grid.Column="2" Background="{DynamicResource PrimaryHueDarkBrush}"
-                            Style="{StaticResource MaterialDesignMultiFloatingActionPopupBox}"
-                            PlacementMode="BottomAndAlignCentres"
-                            ToolTipService.Placement="Right"
-                            ToolTip="PopupBox, Style MaterialDesignMultiFloatingActionPopupBox" Cursor="Hand">
-                                    <StackPanel>
-                                        <Button
-                                    ToolTip="Two"
-                                    Content="2" />
-                                    </StackPanel>
-                                </materialDesign:PopupBox>
-                            </materialDesign:Badged>
+                            
                         </Grid>
-                        <Button Margin="0 5 0 5" Content="Добавить задачу"/>
+                        <Button Margin="0 5 0 5" Content="Добавить задачу" Visibility="{Binding SelectedTask, Converter={StaticResource CreationModeToVisibility}}" Cursor="Hand"/>
                     </StackPanel>
                 </ScrollViewer>
             </GroupBox>
