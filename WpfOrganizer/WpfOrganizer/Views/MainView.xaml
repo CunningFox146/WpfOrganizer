@@ -16,6 +16,10 @@
         <c:CreationModeToVisibility x:Key="CreationModeToVisibility" />
         <c:ColorToBrush x:Key="ColorToBrush" />
         <c:TagNameTrimmer x:Key="TagNameTrimmer" />
+        <c:TagsEnabled x:Key="TagsEnabled" />
+        <c:TagsHintVisibility x:Key="TagsHintVisibility" />
+        <c:CheckListsVisibility x:Key="CheckListsVisibility" />
+        <c:ImagesVisibility x:Key="ImagesVisibility" />
     </UserControl.Resources>
     <DockPanel d:Background="White" ClipToBounds="True">
         <DockPanel DockPanel.Dock="Top">
@@ -209,37 +213,40 @@
                                 VerticalScrollBarVisibility="Auto"
                                 materialDesign:HintAssist.Hint="Описание" Cursor="IBeam"
                             />
-                        <ComboBox
-                        Margin="0 5 0 5"
-                        materialDesign:HintAssist.Hint="Выберите тег"
-                        SelectedItem="{Binding SelectedTask.Tag}"
-                        Style="{StaticResource MaterialDesignOutlinedComboBox}"
-                        ItemsSource="{Binding Tags}"
-                        materialDesign:TextFieldAssist.HasClearButton="True">
-                            <ComboBox.ItemTemplate>
-                                <DataTemplate>
-                                    <DockPanel>
-                                        <StackPanel Orientation="Horizontal" DockPanel.Dock="Left">
-                                            <Grid>
-                                                <Ellipse
-                                                Width="25"
-                                                Height="25"
-                                                Fill="{Binding Color, Converter={StaticResource ColorToBrush}}" />
-                                                <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="DemiBold" Text="{Binding Name, Converter={StaticResource TagNameTrimmer}}"/>
-                                            </Grid>
-                                            <TextBlock Margin="5 0 0 0" Text="{Binding Name}" VerticalAlignment="Center"/>
-                                        </StackPanel>
-                                        <Button
-                                        DockPanel.Dock="Right"
-                                        Style="{StaticResource MaterialDesignIconButton}"
-                                        HorizontalAlignment="Right"
-                                        ToolTip="MaterialDesignIconButton">
-                                            <materialDesign:PackIcon Kind="Trash" />
-                                        </Button>
-                                    </DockPanel>
-                                </DataTemplate>
-                            </ComboBox.ItemTemplate>
-                        </ComboBox>
+                        <StackPanel Margin="0 5 0 5">
+                            <TextBlock Text="Не задано ни одного тега!" Foreground="Red" Visibility="{Binding Tags, Converter={StaticResource TagsHintVisibility}}"/>
+                            <ComboBox
+                            materialDesign:HintAssist.Hint="Выберите тег"
+                            SelectedItem="{Binding SelectedTask.Tag}"
+                            Style="{StaticResource MaterialDesignOutlinedComboBox}"
+                            ItemsSource="{Binding Tags}"
+                            IsEnabled="{Binding Tags, Converter={StaticResource TagsEnabled}}"
+                            materialDesign:TextFieldAssist.HasClearButton="True">
+                                <ComboBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <DockPanel>
+                                            <StackPanel Orientation="Horizontal" DockPanel.Dock="Left">
+                                                <Grid>
+                                                    <Ellipse
+                                                    Width="25"
+                                                    Height="25"
+                                                    Fill="{Binding Color, Converter={StaticResource ColorToBrush}}" />
+                                                    <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="DemiBold" Text="{Binding Name, Converter={StaticResource TagNameTrimmer}}"/>
+                                                </Grid>
+                                                <TextBlock Margin="5 0 0 0" Text="{Binding Name}" VerticalAlignment="Center"/>
+                                            </StackPanel>
+                                            <Button
+                                            DockPanel.Dock="Right"
+                                            Style="{StaticResource MaterialDesignIconButton}"
+                                            HorizontalAlignment="Right"
+                                            ToolTip="MaterialDesignIconButton">
+                                                <materialDesign:PackIcon Kind="Trash" />
+                                            </Button>
+                                        </DockPanel>
+                                    </DataTemplate>
+                                </ComboBox.ItemTemplate>
+                            </ComboBox>
+                        </StackPanel>
 
                         <Expander
                         Margin="0 5 0 5"
@@ -247,6 +254,7 @@
                         Header="Списки"
                         BorderThickness="1"
                         BorderBrush="Black"
+                        Visibility="{Binding SelectedTask.CheckLists, Converter={StaticResource CheckListsVisibility}}"
                         >
                             <DataGrid ItemsSource="{Binding SelectedTask.CheckLists}" HeadersVisibility="None" AutoGenerateColumns="False" CanUserAddRows="False">
                                 <DataGrid.Columns>
@@ -307,6 +315,7 @@
                         Header="Изображения"
                         BorderThickness="1"
                         BorderBrush="Black"
+                            Visibility="{Binding SelectedTask.Images, Converter={StaticResource ImagesVisibility}}"
                         >
                             <DataGrid ItemsSource="{Binding SelectedTask.Images, UpdateSourceTrigger=PropertyChanged}" HeadersVisibility="None" AutoGenerateColumns="False" SelectedItem="{Binding SelectedTask}" CanUserAddRows="False">
                                 <DataGrid.Columns>

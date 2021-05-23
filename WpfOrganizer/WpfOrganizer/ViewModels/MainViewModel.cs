@@ -6,6 +6,7 @@ using System.Windows.Input;
 using WpfOrganizer.Commands;
 using Microsoft.Win32;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 
 namespace WpfOrganizer.ViewModels
 {
@@ -89,6 +90,8 @@ namespace WpfOrganizer.ViewModels
             var Rng = new Random();
 
             Tags = new ObservableCollection<Tag>();
+            
+            Tags.CollectionChanged += Tags_CollectionChanged;
 
             //Tags.Add(new Tag() { Name = "Tag1", Colour = "#f4fc03" });
             //Tags.Add(new Tag() { Name = "Tag2", Colour = "#fca503" });
@@ -118,6 +121,11 @@ namespace WpfOrganizer.ViewModels
 
                 Tasks.Add(dbgTask);
             }
+        }
+
+        private void Tags_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            OnPropertyChanged("Tags");
         }
     }
 }

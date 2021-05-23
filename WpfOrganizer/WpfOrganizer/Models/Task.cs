@@ -13,8 +13,8 @@ namespace WpfOrganizer.Models
         public string Name { get; set; }
         public string Description { get; set; }
 
-        public ObservableCollection<Tag> tags;
-        public ObservableCollection<Tag> Tags { get => tags; set => Set(ref tags, value); }
+        private Tag tag;
+        public Tag Tag { get => tag; set => Set(ref tag, value); }
 
         public bool Checked { get; set; } = false;
 
@@ -24,10 +24,19 @@ namespace WpfOrganizer.Models
         public Task()
         {
             CheckLists = new ObservableCollection<CheckList>();
+            CheckLists.CollectionChanged += CheckLists_CollectionChanged;
             Images = new ObservableCollection<TaskImage>();
-            Tags = new ObservableCollection<Tag>();
+            Images.CollectionChanged += Images_CollectionChanged;
         }
 
-        public bool HasTag(Tag tag) => Tags.Contains(tag);
+        private void CheckLists_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        {
+            OnPropertyChanged("CheckLists");
+        }
+
+        private void Images_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        {
+            OnPropertyChanged("Images");
+        }
     }
 }
