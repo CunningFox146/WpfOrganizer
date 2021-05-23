@@ -11,6 +11,7 @@
              mc:Ignorable="d" 
              d:DesignHeight="950" d:DesignWidth="800">
     <UserControl.Resources>
+        <c:CheckBoxDecorator x:Key="CheckBoxDecorator" />
         <c:ImageToResolvedImage x:Key="ImageToResolvedImage" />
         <c:ItemModeToIcon x:Key="ItemModeToIcon" />
         <c:ColorToBrush x:Key="ColorToBrush" />
@@ -367,12 +368,21 @@
                                                     </ListView.ItemContainerStyle>
                                                     <ListView.ItemTemplate>
                                                         <DataTemplate>
-                                                            <CheckBox
-                                                            IsChecked="{Binding Checked, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                                            Margin="16 4 16 0"
-                                                            Style="{StaticResource MaterialDesignUserForegroundCheckBox}">
-                                                                <TextBox Text="{Binding Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-                                                            </CheckBox>
+                                                            <Grid>
+                                                                <CheckBox
+                                                                IsChecked="{Binding Checked, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                                Margin="16 4 16 0"
+                                                                Style="{StaticResource MaterialDesignUserForegroundCheckBox}">
+                                                                    <TextBox TextDecorations="{Binding Checked, Converter={StaticResource CheckBoxDecorator}}" Text="{Binding Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                                                                </CheckBox>
+                                                                <Button
+                                                                Margin="15"
+                                                                HorizontalAlignment="Right"
+                                                                Style="{StaticResource MaterialDesignIconButton}"
+                                                                ToolTip="MaterialDesignIconButton">
+                                                                    <materialDesign:PackIcon Kind="Trash" />
+                                                                </Button>
+                                                            </Grid>
                                                         </DataTemplate>
                                                     </ListView.ItemTemplate>
                                                 </ListView>
