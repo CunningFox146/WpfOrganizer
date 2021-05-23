@@ -7,6 +7,7 @@ using WpfOrganizer.Commands;
 using Microsoft.Win32;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
+using System.Diagnostics;
 
 namespace WpfOrganizer.ViewModels
 {
@@ -20,6 +21,24 @@ namespace WpfOrganizer.ViewModels
         }
 
         #region Команды
+
+        public ICommand RemoveCheckListItemCommand { get; }
+        private bool OnCanRemoveCheckListItemCommand(object p) => true;
+        private void OnRemoveCheckListItemCommand(object p)
+        {
+            var values = (object[])p;
+            if (values == null) return;
+
+            var item = values[0] as CheckListItem;
+            var checkList = values[1] as CheckList;
+
+            if (checkList == null || item == null) return;
+
+            checkList.Items.Remove(item);
+
+            if (checkList.Items.Count == 0)
+                SelectedTask.CheckLists.Remove(checkList);
+        }
 
         public ICommand AddCheckBoxCommand { get; }
         private bool OnCanAddCheckBoxCommand(object p) => true;
@@ -146,6 +165,8 @@ namespace WpfOrganizer.ViewModels
             RemoveImageCommand = new LambdaCommand(OnRemoveImageCommand, OnCanRemoveImageCommand);
             AddCheckBoxCommand = new LambdaCommand(OnAddCheckBoxCommand, OnCanAddCheckBoxCommand);
             RemoveCheckListCommand = new LambdaCommand(OnRemoveCheckListCommand, OnCanRemoveCheckListCommand);
+            RemoveCheckListItemCommand = new LambdaCommand(OnRemoveCheckListItemCommand, OnCanRemoveCheckListItemCommand);
+
             #endregion
 
             #region Инициализация
