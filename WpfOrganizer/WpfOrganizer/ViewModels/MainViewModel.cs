@@ -21,6 +21,16 @@ namespace WpfOrganizer.ViewModels
 
         #region Команды
 
+        public ICommand RemoveImageCommand { get; }
+        private bool OnCanRemoveImageCommand(object p) => true;
+        private void OnRemoveImageCommand(object p)
+        {
+            var image = p as TaskImage;
+            if (p == null) return;
+
+            SelectedTask.Images.Remove(image);
+        }
+
         public ICommand RemoveSelectedTaskCommand { get; }
         private bool OnCanRemoveSelectedTaskCommand(object p) => true;
         private void OnRemoveSelectedTaskCommand(object p)
@@ -113,6 +123,7 @@ namespace WpfOrganizer.ViewModels
             AddCheckListCommand = new LambdaCommand(OnAddCheckListCommand, OnCanAddCheckListCommand);
             AddTaskCommand = new LambdaCommand(OnAddTaskCommand, OnCanAddTaskCommand);
             RemoveSelectedTaskCommand = new LambdaCommand(OnRemoveSelectedTaskCommand, OnCanRemoveSelectedTaskCommand);
+            RemoveImageCommand = new LambdaCommand(OnRemoveImageCommand, OnCanRemoveImageCommand);
 
             #endregion
 
