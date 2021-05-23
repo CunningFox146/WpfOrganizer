@@ -339,6 +339,16 @@
                                                 FontSize="16"
                                                 Text="{Binding Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 
+                                                <Grid Margin="15" >
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="30"/>
+                                                        <ColumnDefinition/>
+                                                    </Grid.ColumnDefinitions>
+                                                    
+                                                    <TextBlock Text="15%"/>
+                                                    <ProgressBar Grid.Column="1" Value="50" materialDesign:TransitionAssist.DisableTransitions="True" Height="10" />
+                                                </Grid>
+
                                                 <ListView ItemsSource="{Binding Items, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
                                                     <ListView.ItemContainerStyle>
                                                         <Style TargetType="ListViewItem">
@@ -370,14 +380,23 @@
                                                 <Separator
                                                     Style="{StaticResource MaterialDesignLightSeparator}" />
                                                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                                                    <Button Margin="10" Style="{StaticResource MaterialDesignFloatingActionMiniAccentButton}" ToolTip="MaterialDesignFloatingActionMiniAccentButton">
-                                                        <materialDesign:PackIcon Kind="Trash" />
-                                                    </Button>
-                                                    <Button Margin="10" Style="{StaticResource MaterialDesignFloatingActionMiniAccentButton}" ToolTip="MaterialDesignFloatingActionMiniAccentButton">
+                                                    <Button
+                                                        CommandParameter="{Binding}"
+                                                        Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.AddCheckBoxCommand}"
+                                                        Margin="10"
+                                                        Style="{StaticResource MaterialDesignFloatingActionMiniAccentButton}"
+                                                        ToolTip="MaterialDesignFloatingActionMiniAccentButton">
                                                         <materialDesign:PackIcon Kind="Plus" />
                                                     </Button>
+                                                    <Button
+                                                        CommandParameter="{Binding}"
+                                                        Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.RemoveCheckListCommand}"
+                                                        Margin="10"
+                                                        Style="{StaticResource MaterialDesignFloatingActionMiniAccentButton}"
+                                                        ToolTip="MaterialDesignFloatingActionMiniAccentButton">
+                                                        <materialDesign:PackIcon Kind="Trash" />
+                                                    </Button>
                                                 </StackPanel>
-                                                <ProgressBar Value="50" materialDesign:TransitionAssist.DisableTransitions="True" Height="10" />
                                             </StackPanel>
                                         </materialDesign:Card>
                                     </DataTemplate>

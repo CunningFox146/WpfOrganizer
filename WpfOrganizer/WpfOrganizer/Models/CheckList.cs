@@ -27,6 +27,12 @@ namespace WpfOrganizer.Models
         public CheckList()
         {
             Items = new ObservableCollection<CheckListItem>();
+            Items.CollectionChanged += Items_CollectionChanged;
+        }
+
+        private void Items_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        {
+            OnPropertyChanged("Items");
         }
     }
 }
