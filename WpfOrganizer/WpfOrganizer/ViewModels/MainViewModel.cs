@@ -47,7 +47,7 @@ namespace WpfOrganizer.ViewModels
             var checkList = p as CheckList;
             if (checkList == null) return;
 
-            checkList.Items.Add(new CheckListItem() { Name = "New Check List Item" });
+            checkList.Items.Add(new CheckListItem(checkList) { Name = "New Check List Item" });
         }
         
         public ICommand RemoveCheckListCommand { get; }
@@ -100,12 +100,15 @@ namespace WpfOrganizer.ViewModels
         private bool OnCanAddCheckListCommand(object p) => true;
         private void OnAddCheckListCommand(object p)
         {
-            var checkListItem = new CheckListItem()
+            
+
+            var checkList = new CheckList() { Name = "New Check List" };
+
+            var checkListItem = new CheckListItem(checkList)
             {
                 Name = "New Check List Item"
             };
 
-            var checkList = new CheckList() { Name = "New Check List" };
             checkList.Items.Add(checkListItem);
 
             SelectedTask.CheckLists.Add(checkList);

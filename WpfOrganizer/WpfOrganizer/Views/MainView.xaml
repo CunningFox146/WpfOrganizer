@@ -19,6 +19,7 @@
         <c:ColorToBrush x:Key="ColorToBrush" />
         <c:TagNameTrimmer x:Key="TagNameTrimmer" />
         <c:TagsEnabled x:Key="TagsEnabled" />
+        <c:ListToPercent x:Key="ListToPercent" />
         
         <c:TagsHintVisibility x:Key="TagsHintVisibility" />
         <c:CheckListsVisibility x:Key="CheckListsVisibility" />
@@ -348,8 +349,8 @@
                                                         <ColumnDefinition Width="30"/>
                                                         <ColumnDefinition/>
                                                     </Grid.ColumnDefinitions>
-                                                    
-                                                    <TextBlock Text="15%"/>
+
+                                                    <TextBlock Text="{Binding Percent, UpdateSourceTrigger=PropertyChanged}"/>
                                                     <ProgressBar Grid.Column="1" Value="50" materialDesign:TransitionAssist.DisableTransitions="True" Height="10" />
                                                 </Grid>
 
@@ -380,7 +381,7 @@
                                                                 </CheckBox>
                                                                 <Button
                                                                 Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.RemoveCheckListItemCommand}"
-                                                                Margin="15"
+                                                                Margin="15 0 15 0"
                                                                 HorizontalAlignment="Right"
                                                                 Style="{StaticResource MaterialDesignIconButton}"
                                                                 ToolTip="MaterialDesignIconButton">

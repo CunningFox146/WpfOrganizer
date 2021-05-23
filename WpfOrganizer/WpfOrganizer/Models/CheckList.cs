@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Globalization;
 using System.Runtime.CompilerServices;
 using WpfOrganizer.Util;
 
@@ -13,7 +14,21 @@ namespace WpfOrganizer.Models
         public string Name { get => name; set => Set(ref name, value); }
 
         private bool isChecked;
-        public bool Checked { get => isChecked; set => Set(ref isChecked, value); }
+        public bool Checked { get => isChecked; set
+            {
+                Set(ref isChecked, value);
+                OnItemChecked?.Invoke(value);
+            }
+        }
+
+        // Для обновления % выполнения
+        public delegate void ItemChecked(bool Checked);
+        public event ItemChecked OnItemChecked;
+
+        public CheckListItem(CheckList checkList)
+        {
+            OnItemChecked += checkList.OnItemChecked;
+        }
     }
 
     class CheckList : Notifyer
@@ -24,10 +39,28 @@ namespace WpfOrganizer.Models
         private ObservableCollection<CheckListItem> items;
         public ObservableCollection<CheckListItem> Items { get => items; set => Set(ref items, value); }
 
+        private float percent;
+        public float Percent { get => percent; set => Set(ref percent, value); }
+
         public CheckList()
         {
             Items = new ObservableCollection<CheckListItem>();
             Items.CollectionChanged += Items_CollectionChanged;
+
+            OnItemChecked(false);
+        }
+
+        public void OnItemChecked(bool Checked)
+        {
+            int checkedCount = 0;
+            foreach (CheckListItem item in Items)
+            {
+                if (item.Checked)
+                    checkedCount++;
+            }
+
+            Percent = Items.Count > 0 ? (float)(checkedCount / Items.Count * 100) : 0;
+            System.Diagnostics.Trace.WriteLine($"{Percent}, {(Items.Count != 0 ? checkedCount / Items.Count : 0)}");
         }
 
         private void Items_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)

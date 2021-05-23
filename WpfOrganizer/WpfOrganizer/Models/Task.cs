@@ -10,7 +10,6 @@ namespace WpfOrganizer.Models
 {
     class Task : Notifyer
     {
-
         private string name;
         public string Name { get => name; set => Set(ref name, value); }
 
