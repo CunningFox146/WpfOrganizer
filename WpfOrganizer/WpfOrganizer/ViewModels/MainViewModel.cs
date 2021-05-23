@@ -21,6 +21,14 @@ namespace WpfOrganizer.ViewModels
 
         #region Команды
 
+        public ICommand RemoveSelectedTaskCommand { get; }
+        private bool OnCanRemoveSelectedTaskCommand(object p) => true;
+        private void OnRemoveSelectedTaskCommand(object p)
+        {
+            Tasks.Remove(SelectedTask);
+            SetupTaskForCreation();
+        }
+
         public ICommand AddImageCommand { get; }
         private bool OnCanAddImageCommand(object p) => true;
         private void OnAddImageCommand(object p)
@@ -39,12 +47,35 @@ namespace WpfOrganizer.ViewModels
             }
         }
 
+        public ICommand AddCheckListCommand { get; }
+        private bool OnCanAddCheckListCommand(object p) => true;
+        private void OnAddCheckListCommand(object p)
+        {
+            var checkListItem = new CheckListItem()
+            {
+                Name = "New Check List Item"
+            };
+
+            var checkList = new CheckList() { Name = "New Check List" };
+            checkList.Items.Add(checkListItem);
+
+            SelectedTask.CheckLists.Add(checkList);
+        }
+        
+        public ICommand AddTaskCommand { get; }
+        private bool OnCanAddTaskCommand(object p) => SelectedTask.IsValid();
+        private void OnAddTaskCommand(object p)
+        {
+            SelectedTask.ForCreation = false;
+            Tasks.Add(SelectedTask);
+            //SetupTaskForCreation();
+        }
+
         public ICommand SetCreationMode { get; }
-        private bool OnCanSetCreationMode(object p) => SelectedTask != null;
+        private bool OnCanSetCreationMode(object p) => !SelectedTask.ForCreation;
         private void OnSetCreationMode(object p)
         {
-            CreatingTask = !CreatingTask;
-            SelectedTask = null;
+            SetupTaskForCreation();
         }
 
         public ICommand CreateTagCommand { get; }
@@ -70,57 +101,39 @@ namespace WpfOrganizer.ViewModels
         private Tag creatingTag;
         public Tag CreatingTag { get => creatingTag; set => Set(ref creatingTag, value); }
 
-        private bool creatingTask = false;
-        public bool CreatingTask { get => creatingTask; set => Set(ref creatingTask, value); }
-
         public MainViewModel()
         {
+            currentInstance = this;
+
             #region Команды
 
             AddImageCommand = new LambdaCommand(OnAddImageCommand, OnCanAddImageCommand);
             SetCreationMode = new LambdaCommand(OnSetCreationMode, OnCanSetCreationMode);
             CreateTagCommand = new LambdaCommand(OnCreateTagCommand, OnCanCreateTagCommand);
+            AddCheckListCommand = new LambdaCommand(OnAddCheckListCommand, OnCanAddCheckListCommand);
+            AddTaskCommand = new LambdaCommand(OnAddTaskCommand, OnCanAddTaskCommand);
+            RemoveSelectedTaskCommand = new LambdaCommand(OnRemoveSelectedTaskCommand, OnCanRemoveSelectedTaskCommand);
 
             #endregion
 
+            #region Инициализация
+
+            SelectedTask = new Task();
             CreatingTag = new Tag();
 
-            currentInstance = this;
-
-            var Rng = new Random();
-
-            Tags = new ObservableCollection<Tag>();
-            
+            Tasks = new ObservableCollection<Task>();
+            Tags = new ObservableCollection<Tag>();            
             Tags.CollectionChanged += Tags_CollectionChanged;
 
-            //Tags.Add(new Tag() { Name = "Tag1", Colour = "#f4fc03" });
-            //Tags.Add(new Tag() { Name = "Tag2", Colour = "#fca503" });
-            //Tags.Add(new Tag() { Name = "Tag3", Colour = "#fc0303" });
+            SetupTaskForCreation();
 
-            Tasks = new ObservableCollection<Task>();
+            #endregion 
+        }
 
-            for (int i = 0; i < 10; i++)
-            {
-                var dbgTask = new Task()
-                {
-                    Name = "Task " + i,
-                    Description = "Long and cool desc actually....",
-                    Checked = i % 2 == 0
-                };
-                
-                for (int v = 0; v <= Rng.Next()%5; v++)
-                {
-                    var checkList = new CheckList();
-                    checkList.Name = "Check list " + v;
-                    checkList.Items.Add(new CheckListItem() { Name = "Name", Checked = false });
-                    checkList.Items.Add(new CheckListItem() { Name = "Name1", Checked = true });
-                    checkList.Items.Add(new CheckListItem() { Name = "Name2", Checked = true });
-                    dbgTask.CheckLists.Add(checkList);
-                }
-
-
-                Tasks.Add(dbgTask);
-            }
+        private void SetupTaskForCreation()
+        {
+            SelectedTask = new Task();
+            SelectedTask.ForCreation = true;
         }
 
         private void Tags_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)

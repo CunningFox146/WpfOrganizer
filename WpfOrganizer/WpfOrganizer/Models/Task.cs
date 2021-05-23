@@ -10,16 +10,24 @@ namespace WpfOrganizer.Models
 {
     class Task : Notifyer
     {
-        public string Name { get; set; }
-        public string Description { get; set; }
+
+        private string name;
+        public string Name { get => name; set => Set(ref name, value); }
+
+        private string description;
+        public string Description { get => description; set => Set(ref description, value); }
 
         private Tag tag;
         public Tag Tag { get => tag; set => Set(ref tag, value); }
 
-        public bool Checked { get; set; } = false;
+        private bool isChecked = false;
+        public bool Checked { get => isChecked; set => Set(ref isChecked, value); }
 
         public ObservableCollection<CheckList> CheckLists { get; set; }
         public ObservableCollection<TaskImage> Images { get; set; }
+
+        private bool forCreation = false;
+        public bool ForCreation { get => forCreation; set => Set(ref forCreation, value); }
 
         public Task()
         {
@@ -28,6 +36,8 @@ namespace WpfOrganizer.Models
             Images = new ObservableCollection<TaskImage>();
             Images.CollectionChanged += Images_CollectionChanged;
         }
+
+        public bool IsValid() => !String.IsNullOrEmpty(Name);
 
         private void CheckLists_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
         {

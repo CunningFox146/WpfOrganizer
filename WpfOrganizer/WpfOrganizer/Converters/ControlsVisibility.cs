@@ -41,4 +41,31 @@ namespace WpfOrganizer.Converters
             return (images != null && images.Count > 0) ? Visibility.Visible : Visibility.Collapsed;
         }
     }
+
+    class CreatingTaskVisibility : ControlVisibility
+    {
+        public override object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            var images = (bool)value;
+            return images ? Visibility.Visible : Visibility.Collapsed;
+        }
+    }
+
+    class DeleteTaskVisibility : ControlVisibility
+    {
+        public override object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            var images = (bool)value;
+            return images ? Visibility.Collapsed : Visibility.Visible;
+        }
+    }
+
+    class TagVisibility : ControlVisibility
+    {
+        public override object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            var tag = value as Tag;
+            return tag != null ? Visibility.Visible : Visibility.Collapsed;
+        }
+    }
 }
