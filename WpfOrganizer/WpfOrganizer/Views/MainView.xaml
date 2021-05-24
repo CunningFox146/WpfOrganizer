@@ -346,12 +346,15 @@
 
                                                 <Grid Margin="15" >
                                                     <Grid.ColumnDefinitions>
-                                                        <ColumnDefinition Width="30"/>
+                                                        <ColumnDefinition Width="40"/>
                                                         <ColumnDefinition/>
                                                     </Grid.ColumnDefinitions>
 
-                                                    <TextBlock Text="{Binding Percent, UpdateSourceTrigger=PropertyChanged}"/>
-                                                    <ProgressBar Grid.Column="1" Value="50" materialDesign:TransitionAssist.DisableTransitions="True" Height="10" />
+                                                    <TextBlock>
+                                                        <Run Text="{Binding Percent, UpdateSourceTrigger=PropertyChanged}"></Run>
+                                                        <Run Text="%"></Run>
+                                                    </TextBlock>
+                                                    <ProgressBar Grid.Column="1" Value="{Binding Percent, UpdateSourceTrigger=PropertyChanged}" materialDesign:TransitionAssist.DisableTransitions="True" Height="10" />
                                                 </Grid>
 
                                                 <ListView ItemsSource="{Binding Items, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">

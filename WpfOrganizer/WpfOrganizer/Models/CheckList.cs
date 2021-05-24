@@ -39,8 +39,8 @@ namespace WpfOrganizer.Models
         private ObservableCollection<CheckListItem> items;
         public ObservableCollection<CheckListItem> Items { get => items; set => Set(ref items, value); }
 
-        private float percent;
-        public float Percent { get => percent; set => Set(ref percent, value); }
+        private int percent;
+        public int Percent { get => percent; set => Set(ref percent, value); }
 
         public CheckList()
         {
@@ -59,12 +59,18 @@ namespace WpfOrganizer.Models
                     checkedCount++;
             }
 
-            Percent = Items.Count > 0 ? (float)(checkedCount / Items.Count * 100) : 0;
-            System.Diagnostics.Trace.WriteLine($"{Percent}, {(Items.Count != 0 ? checkedCount / Items.Count : 0)}");
+            Percent = (int)(Items.Count != 0 ? ((double)checkedCount / (double)Items.Count * 100) : 0);
+            try
+            {
+                System.Diagnostics.Trace.WriteLine($"{Percent}, {(checkedCount / Items.Count)}");
+            }
+            catch { }
+            
         }
 
         private void Items_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
         {
+            OnItemChecked(false);
             OnPropertyChanged("Items");
         }
     }
