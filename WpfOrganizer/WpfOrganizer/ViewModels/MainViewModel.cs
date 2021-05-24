@@ -138,6 +138,18 @@ namespace WpfOrganizer.ViewModels
             CreatingTag = new Tag();
         }
 
+        public ICommand RemoveTagCommand { get; }
+        private bool OnCanRemoveTagCommand(object p) => true;
+        private void OnRemoveTagCommand(object p)
+        {
+            Tag tag = p as Tag;
+            if (tag != null)
+            {
+                TagManager.Inst.RemoveTag(tag);
+                Tags.Remove(tag);
+            }
+        }
+
         #endregion
 
         private ObservableCollection<Task> tasks;
@@ -162,6 +174,7 @@ namespace WpfOrganizer.ViewModels
             AddImageCommand = new LambdaCommand(OnAddImageCommand, OnCanAddImageCommand);
             SetCreationMode = new LambdaCommand(OnSetCreationMode, OnCanSetCreationMode);
             CreateTagCommand = new LambdaCommand(OnCreateTagCommand, OnCanCreateTagCommand);
+            RemoveTagCommand = new LambdaCommand(OnRemoveTagCommand, OnCanRemoveTagCommand);
             AddCheckListCommand = new LambdaCommand(OnAddCheckListCommand, OnCanAddCheckListCommand);
             AddTaskCommand = new LambdaCommand(OnAddTaskCommand, OnCanAddTaskCommand);
             RemoveSelectedTaskCommand = new LambdaCommand(OnRemoveSelectedTaskCommand, OnCanRemoveSelectedTaskCommand);

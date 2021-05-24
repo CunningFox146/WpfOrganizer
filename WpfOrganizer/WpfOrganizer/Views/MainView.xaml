@@ -242,13 +242,15 @@
                                                     Fill="{Binding Color, Converter={StaticResource ColorToBrush}}" />
                                                     <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="DemiBold" Text="{Binding Name, Converter={StaticResource TagNameTrimmer}}"/>
                                                 </Grid>
-                                                <TextBlock Margin="5 0 0 0" Text="{Binding Name}" VerticalAlignment="Center"/>
+                                                <TextBlock Margin="10 0 0 0" Text="{Binding Name}" VerticalAlignment="Center"/>
                                             </StackPanel>
                                             <Button
                                             DockPanel.Dock="Right"
                                             Style="{StaticResource MaterialDesignIconButton}"
                                             HorizontalAlignment="Right"
-                                            ToolTip="MaterialDesignIconButton">
+                                            ToolTip="MaterialDesignIconButton"
+                                            CommandParameter="{Binding}"
+                                            Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.RemoveTagCommand}">
                                                 <materialDesign:PackIcon Kind="Trash" />
                                             </Button>
                                         </DockPanel>

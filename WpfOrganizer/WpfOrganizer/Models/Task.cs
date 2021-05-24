@@ -34,6 +34,16 @@ namespace WpfOrganizer.Models
             CheckLists.CollectionChanged += CheckLists_CollectionChanged;
             Images = new ObservableCollection<TaskImage>();
             Images.CollectionChanged += Images_CollectionChanged;
+
+
+            TagManager.Inst.OnTagRemoved += TagManager_OnTagRemoved;
+        }
+
+
+        private void TagManager_OnTagRemoved(Tag removedTag)
+        {
+            if (removedTag == Tag)
+                Tag = null;
         }
 
         public bool IsValid() => !String.IsNullOrEmpty(Name);

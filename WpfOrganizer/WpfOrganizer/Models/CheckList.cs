@@ -50,6 +50,7 @@ namespace WpfOrganizer.Models
             OnItemChecked(false);
         }
 
+
         public void OnItemChecked(bool Checked)
         {
             int checkedCount = 0;
