@@ -64,30 +64,113 @@
                     <materialDesign:PopupBox.ToggleContent>
                         <materialDesign:PackIcon Kind="TagAdd"/>
                     </materialDesign:PopupBox.ToggleContent>
-                    <materialDesign:Card
-                        Background="{DynamicResource PrimaryHueDarkBrush}"
-                        Foreground="{DynamicResource PrimaryHueDarkForegroundBrush}"
-                        Width="200"
-                        Padding="10">
-                        <StackPanel>
-                            <TextBox
-                            Margin="10"
-                            Text="{Binding CreatingTag.Name, UpdateSourceTrigger=PropertyChanged}"
-                            materialDesign:HintAssist.Hint="Название"
-                            materialDesign:HintAssist.HelperText=""/>
+                    <materialDesign:Flipper
+                    Style="{StaticResource MaterialDesignCardFlipper}"
+                    VerticalAlignment="Top">
+                        <materialDesign:Flipper.FrontContent>
+                            <Grid
+                            Background="{DynamicResource PrimaryHueDarkBrush}"
+                            Width="200">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="*" />
+                                </Grid.RowDefinitions>
+                                <materialDesign:ColorZone
+                                Mode="SecondaryMid"
+                                Padding="6">
+                                    <TextBlock
+                                    Margin="8 0 0 0"
+                                    VerticalAlignment="Center"
+                                    Text="Добавить тег" />
+                                </materialDesign:ColorZone>
+                                <StackPanel Grid.Row="1">
+                                    <TextBox
+                                    Margin="10"
+                                    Text="{Binding CreatingTag.Name, UpdateSourceTrigger=PropertyChanged}"
+                                    materialDesign:HintAssist.Hint="Название"
+                                    materialDesign:HintAssist.HelperText=""/>
 
-                            <TextBlock Text="Цвет тэга:" Margin="10"/>
-                            <materialDesign:ColorPicker Height="200" Color="{Binding CreatingTag.Color, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
-                            <Button
-                            Margin="10"
-                            HorizontalAlignment="Right"
-                            Command="{Binding CreateTagCommand}"
-                            Style="{StaticResource MaterialDesignFloatingActionMiniAccentButton}"
-                            ToolTip="MaterialDesignFloatingActionMiniAccentButton">
-                                <materialDesign:PackIcon Kind="Add"/>
-                            </Button>
-                        </StackPanel>
-                    </materialDesign:Card>
+                                    <TextBlock Text="Цвет тэга:" Margin="10"/>
+                                    <materialDesign:ColorPicker Color="{Binding CreatingTag.Color, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
+                                    <Grid>
+                                        <Button
+                                        Margin="10"
+                                        HorizontalAlignment="Right"
+                                        Command="{Binding CreateTagCommand, UpdateSourceTrigger=PropertyChanged}"
+                                        Style="{StaticResource MaterialDesignFloatingActionMiniAccentButton}"
+                                        ToolTip="MaterialDesignFloatingActionMiniAccentButton">
+                                            <materialDesign:PackIcon Kind="Add"/>
+                                        </Button>
+                                        <Button
+                                        Margin="10"
+                                        HorizontalAlignment="Left"
+                                        Command="{x:Static materialDesign:Flipper.FlipCommand}"
+                                        Style="{StaticResource MaterialDesignFloatingActionMiniAccentButton}"
+                                        ToolTip="MaterialDesignFloatingActionMiniAccentButton">
+                                            <materialDesign:PackIcon Kind="Trash"/>
+                                        </Button>
+                                    </Grid>
+                                </StackPanel>
+                            </Grid>
+                        </materialDesign:Flipper.FrontContent>
+                        <materialDesign:Flipper.BackContent>
+                            <Grid
+                            Background="{DynamicResource PrimaryHueLightBrush}"
+                            Width="200">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="*" />
+                                </Grid.RowDefinitions>
+                                <materialDesign:ColorZone
+                                Mode="SecondaryMid"
+                                Padding="6">
+                                    <StackPanel Orientation="Horizontal">
+                                        <Button
+                                        Style="{StaticResource MaterialDesignToolForegroundButton}"
+                                        Command="{x:Static materialDesign:Flipper.FlipCommand}"
+                                        HorizontalAlignment="Left">
+                                            <materialDesign:PackIcon
+                                            Kind="ArrowLeft"
+                                            HorizontalAlignment="Right" />
+                                        </Button>
+                                        <TextBlock
+                                        Margin="8 0 0 0"
+                                        VerticalAlignment="Center"
+                                        Text="Удалить тег" />
+                                    </StackPanel>
+                                </materialDesign:ColorZone>
+                                <ScrollViewer Grid.Row="1" Height="256">
+                                    <ListView ItemsSource="{Binding Tags, UpdateSourceTrigger=PropertyChanged}">
+                                        <ListView.ItemTemplate>
+                                            <DataTemplate>
+                                                <DockPanel>
+                                                    <StackPanel Orientation="Horizontal" DockPanel.Dock="Left">
+                                                        <Grid>
+                                                            <Ellipse
+                                                            Width="25"
+                                                            Height="25"
+                                                            Fill="{Binding Color, Converter={StaticResource ColorToBrush}}" />
+                                                            <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="DemiBold" Text="{Binding Name, Converter={StaticResource TagNameTrimmer}}"/>
+                                                        </Grid>
+                                                        <TextBlock Margin="10 0 0 0" Text="{Binding Name}" VerticalAlignment="Center"/>
+                                                    </StackPanel>
+                                                    <Button
+                                                    DockPanel.Dock="Right"
+                                                    Style="{StaticResource MaterialDesignIconButton}"
+                                                    HorizontalAlignment="Right"
+                                                    ToolTip="MaterialDesignIconButton"
+                                                    CommandParameter="{Binding}"
+                                                    Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.RemoveTagCommand}">
+                                                        <materialDesign:PackIcon Kind="Trash" />
+                                                    </Button>
+                                                </DockPanel>
+                                            </DataTemplate>
+                                        </ListView.ItemTemplate>
+                                    </ListView>
+                                </ScrollViewer>
+                            </Grid>
+                        </materialDesign:Flipper.BackContent>
+                    </materialDesign:Flipper>
                 </materialDesign:PopupBox>
             </Grid>
             
@@ -244,7 +327,7 @@
                                                 </Grid>
                                                 <TextBlock Margin="10 0 0 0" Text="{Binding Name}" VerticalAlignment="Center"/>
                                             </StackPanel>
-                                            <Button
+                                            <!--<Button
                                             DockPanel.Dock="Right"
                                             Style="{StaticResource MaterialDesignIconButton}"
                                             HorizontalAlignment="Right"
@@ -252,7 +335,7 @@
                                             CommandParameter="{Binding}"
                                             Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.RemoveTagCommand}">
                                                 <materialDesign:PackIcon Kind="Trash" />
-                                            </Button>
+                                            </Button>-->
                                         </DockPanel>
                                     </DataTemplate>
                                 </ComboBox.ItemTemplate>
