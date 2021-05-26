@@ -262,64 +262,103 @@
             </GroupBox>
 
             <GroupBox Header="Ваши задания" Grid.Row="1" Grid.Column="1" Margin="5" Visibility="{Binding Tasks, Converter={StaticResource TaskToVisibilityReverse}, UpdateSourceTrigger=PropertyChanged}">
-                <ScrollViewer>
-                    <DataGrid
-                    ItemsSource="{Binding Tasks}"
-                    HeadersVisibility="None"
-                    AutoGenerateColumns="False"
-                    SelectedItem="{Binding SelectedTask}"
-                    CanUserAddRows="False"
-                    >
-                        <DataGrid.Columns>
-                            <DataGridTemplateColumn Width="*">
-                                <DataGridTemplateColumn.CellTemplate >
-                                    <DataTemplate>
-                                        <Grid>
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="2*"/>
-                                                <ColumnDefinition Width="auto"/>
-                                            </Grid.ColumnDefinitions>
-                                            <TextBlock Grid.Column="0" Text="{Binding Name}" TextWrapping="Wrap" HorizontalAlignment="Left" />
-                                            <StackPanel Grid.Column="1" HorizontalAlignment="Right" Orientation="Horizontal">
-                                                <Grid Visibility="{Binding Tag, Converter={StaticResource TagVisibility}}">
-                                                    <Ellipse
+                <Grid>
+                    <!--<Grid.RowDefinitions>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                        <ComboBox
+                            materialDesign:HintAssist.Hint="Тег группировки"
+                            SelectedItem="{Binding SearchTag}"
+                            Style="{StaticResource MaterialDesignOutlinedComboBox}"
+                            ItemsSource="{Binding Tags}"
+                            IsEnabled="{Binding Tags, Converter={StaticResource TagsEnabled}}"
+                            materialDesign:TextFieldAssist.HasClearButton="True">
+                            <ComboBox.ItemTemplate>
+                                <DataTemplate>
+                                    <DockPanel>
+                                        <StackPanel Orientation="Horizontal" DockPanel.Dock="Left">
+                                            <Grid>
+                                                <Ellipse
+                                                    Width="25"
+                                                    Height="25"
+                                                    Fill="{Binding Color, Converter={StaticResource ColorToBrush}}" />
+                                                <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="DemiBold" Text="{Binding Name, Converter={StaticResource TagNameTrimmer}}"/>
+                                            </Grid>
+                                            <TextBlock Margin="10 0 0 0" Text="{Binding Name}" VerticalAlignment="Center"/>
+                                        </StackPanel>
+                                    </DockPanel>
+                                </DataTemplate>
+                            </ComboBox.ItemTemplate>
+                        </ComboBox>
+                        <Button
+                        Height="50"
+                        Margin="10 0 0 0"
+                        Style="{StaticResource MaterialDesignRaisedLightButton}"
+                        ToolTip="Resource name: MaterialDesignRaisedLightButton"
+                        Content="Принять" />
+                    </StackPanel>-->
+                    <!--Grid.Row="1" Margin="0 10 0 0"-->
+                    <ScrollViewer>
+                        <DataGrid
+                        ItemsSource="{Binding Tasks}"
+                        HeadersVisibility="None"
+                        AutoGenerateColumns="False"
+                        SelectedItem="{Binding SelectedTask}"
+                        CanUserAddRows="False"
+                        >
+                            <DataGrid.Columns>
+                                <DataGridTemplateColumn Width="*">
+                                    <DataGridTemplateColumn.CellTemplate >
+                                        <DataTemplate>
+                                            <Grid>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="2*"/>
+                                                    <ColumnDefinition Width="auto"/>
+                                                </Grid.ColumnDefinitions>
+                                                <TextBlock Grid.Column="0" Text="{Binding Name}" TextWrapping="Wrap" HorizontalAlignment="Left" />
+                                                <StackPanel Grid.Column="1" HorizontalAlignment="Right" Orientation="Horizontal">
+                                                    <Grid Visibility="{Binding Tag, Converter={StaticResource TagVisibility}}">
+                                                        <Ellipse
                                                     Margin="2"
                                                     Width="30"
                                                     Height="30"
                                                     Fill="{Binding Tag.Color, Converter={StaticResource ColorToBrush}}" />
-                                                    <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="DemiBold" Text="{Binding Tag.Name, Converter={StaticResource TagNameTrimmer}}"/>
-                                                </Grid>
-                                                <Grid Visibility="{Binding Checked, Converter={StaticResource NegBooleanToVisibilityConverter}}">
-                                                    <Grid ToolTip="{Binding TimeLeft, Converter={StaticResource TimeToTimeLeft}}" Visibility="{Binding DeadlineEnabled, Converter={StaticResource BooleanToVisibilityConverter}}">
-                                                        <Grid>
-                                                            <Ellipse
+                                                        <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="DemiBold" Text="{Binding Tag.Name, Converter={StaticResource TagNameTrimmer}}"/>
+                                                    </Grid>
+                                                    <Grid Visibility="{Binding Checked, Converter={StaticResource NegBooleanToVisibilityConverter}}">
+                                                        <Grid ToolTip="{Binding TimeLeft, Converter={StaticResource TimeToTimeLeft}}" Visibility="{Binding DeadlineEnabled, Converter={StaticResource BooleanToVisibilityConverter}}">
+                                                            <Grid>
+                                                                <Ellipse
                                                             Width="30"
                                                             Height="30"
                                                             Fill="{Binding TimeLeft, Converter={StaticResource TimeLeftToColor}}"/>
-                                                            <ProgressBar
+                                                                <ProgressBar
                                                             Style="{StaticResource MaterialDesignCircularProgressBar}"
                                                             Value="{Binding TimeProgress}"
                                                             Width="35"
                                                             Height="35"/>
+                                                            </Grid>
+                                                            <materialDesign:PackIcon Kind="{Binding TimeLeft, Converter={StaticResource TimeLeftToIcon}}" HorizontalAlignment="Center" VerticalAlignment="Center" />
                                                         </Grid>
-                                                        <materialDesign:PackIcon Kind="{Binding TimeLeft, Converter={StaticResource TimeLeftToIcon}}" HorizontalAlignment="Center" VerticalAlignment="Center" />
                                                     </Grid>
-                                                </Grid>
-                                                <ToggleButton
+                                                    <ToggleButton
                                                     Margin="2"
                                                     Grid.Column="1"    
                                                     Content="{materialDesign:PackIcon Kind=Close, Size=21}"
                                                     Style="{StaticResource MaterialDesignActionLightToggleButton}"
                                                     IsChecked="{Binding Checked, UpdateSourceTrigger=PropertyChanged}"
                                                     ToolTip="MaterialDesignActionLightToggleButton" />
-                                            </StackPanel>
-                                        </Grid>
-                                    </DataTemplate>
-                                </DataGridTemplateColumn.CellTemplate>
-                            </DataGridTemplateColumn>
-                        </DataGrid.Columns>
-                    </DataGrid>
-                </ScrollViewer>
+                                                </StackPanel>
+                                            </Grid>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </ScrollViewer>
+                </Grid>
             </GroupBox>
             <GroupBox Header="Описание задания" Grid.Row="1" Grid.Column="2" Margin="5" Visibility="{Binding Tasks, Converter={StaticResource TaskToVisibilityReverse}, UpdateSourceTrigger=PropertyChanged}">
                 <ScrollViewer>

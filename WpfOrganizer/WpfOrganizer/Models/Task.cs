@@ -37,7 +37,7 @@ namespace WpfOrganizer.Models
             set
             {
                 Set(ref deadlineEnabled, value);
-
+                
                 if (value)
                     if (DeadlineTime == null)
                         DeadlineTime = DateTime.Now;
@@ -84,9 +84,18 @@ namespace WpfOrganizer.Models
                 double totalSeconds = totalTimeSpan.TotalSeconds;
                 double timeLeft = ((TimeSpan)TimeLeft).TotalSeconds;
                 TimeProgress = (int)(timeLeft / totalSeconds * (double)100);
+
+                System.Diagnostics.Trace.WriteLine($"{(int)(timeLeft - 1)}, {(int)(timeLeft)}, {timeLeft}");
+
+                if ((int)timeLeft == 0) // Это просто ужасно, просто кошмарно, но времени на норм решение нету
+                    if (timeLeft > 0)
+                        NotificationsManager.ShowTaskExpired(Name);
+                else
+                    NotificationsManager.ShowTaskWarning(Name, (TimeSpan)TimeLeft);
             }
             else
                 TimeLeft = null;
+
         }
 
         private void TagManager_OnTagRemoved(Tag removedTag)

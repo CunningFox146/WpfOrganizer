@@ -160,6 +160,13 @@ namespace WpfOrganizer.ViewModels
                 ChangeDate(data.Tasks, data.Tags);
         }
 
+        //public ICommand SortCommand { get; }
+        //private bool OnCanSortCommand(object p) => true;
+        //private void OnSortCommand(object p)
+        //{
+        //    Tasks.Sort();
+        //}
+
         #endregion
 
         private DateTime currentDateTime;
@@ -181,6 +188,9 @@ namespace WpfOrganizer.ViewModels
         private Tag creatingTag;
         public Tag CreatingTag { get => creatingTag; set => Set(ref creatingTag, value); }
 
+        //private Tag searchTag;
+        //public Tag SearchTag { get => SearchTag; set => Set(ref searchTag, value); }
+
 
         public MainViewModel()
         {
@@ -200,6 +210,7 @@ namespace WpfOrganizer.ViewModels
             RemoveCheckListCommand = new LambdaCommand(OnRemoveCheckListCommand, OnCanRemoveCheckListCommand);
             RemoveCheckListItemCommand = new LambdaCommand(OnRemoveCheckListItemCommand, OnCanRemoveCheckListItemCommand);
             SetDateCommand = new LambdaCommand(OnSetDateCommand, OnCanSetDateCommand);
+            //SortCommand = new LambdaCommand(OnSortCommand, OnCanSortCommand);
 
             #endregion
 

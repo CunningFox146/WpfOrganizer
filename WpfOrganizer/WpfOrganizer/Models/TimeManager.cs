@@ -23,7 +23,7 @@ namespace WpfOrganizer.Models
         public TimeManager()
         {
             // Create a timer with a two second interval.
-            var timer = new Timer(500);
+            var timer = new Timer(1000);
             // Hook up the Elapsed event for the timer. 
             timer.Elapsed += UpdateTime;
             timer.AutoReset = true;

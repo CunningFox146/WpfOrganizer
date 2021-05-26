@@ -15,7 +15,7 @@ namespace WpfOrganizer.Converters
 
             var dateTime = (DateTime)value;
 
-            if (dateTime == null) return "";
+            //if (dateTime == null) return "";
 
             return dateTime.ToLongTimeString();
         }

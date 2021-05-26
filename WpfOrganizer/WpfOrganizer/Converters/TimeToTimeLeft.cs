@@ -13,7 +13,7 @@ namespace WpfOrganizer.Converters
         {
             if (value == null) return "Просрочено";
             var timeSpan = (TimeSpan)value;
-            if (timeSpan == null || timeSpan.TotalSeconds < 0) return "Просрочено";
+            if (timeSpan.TotalSeconds < 0) return "Просрочено";
 
             return timeSpan.ToString(@"hh\:mm\:ss");
         }
