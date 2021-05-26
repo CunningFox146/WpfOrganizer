@@ -10,8 +10,8 @@
         Title="MainWindow" Height="600" Width="900"
         ResizeMode="CanResizeWithGrip">
     <Window.Resources>
-        
-        <DataTemplate x:Name="loginView" DataType="{x:Type viewmodels:LoginViewModel}">
+
+        <DataTemplate x:Name="SettingsViewModel" DataType="{x:Type viewmodels:SettingsViewModel}">
             <views:LoginView DataContext="{Binding}"/>
         </DataTemplate>
     </Window.Resources>
