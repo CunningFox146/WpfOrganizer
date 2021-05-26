@@ -15,6 +15,15 @@ namespace WpfOrganizer.Converters
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) => null;
     }
 
+    class NegBooleanToVisibilityConverter : ControlVisibility
+    {
+        public override object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            var val = (bool)value;
+            return val ? Visibility.Collapsed : Visibility.Visible;
+        }
+    }
+    
     class TagsHintVisibility : ControlVisibility
     {
         public override object Convert(object value, Type targetType, object parameter, CultureInfo culture)
@@ -78,6 +87,14 @@ namespace WpfOrganizer.Converters
     }
 
     class TaskToVisibilityReverse : ControlVisibility
+    {
+        public override object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            return value == null ? Visibility.Collapsed : Visibility.Visible;
+        }
+    }
+
+    class DeadlineToVisibility : ControlVisibility
     {
         public override object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {

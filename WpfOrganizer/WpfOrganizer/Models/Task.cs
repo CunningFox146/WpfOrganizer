@@ -30,6 +30,31 @@ namespace WpfOrganizer.Models
             }
         }
 
+        private bool deadlineEnabled;
+        public bool DeadlineEnabled
+        {
+            get => deadlineEnabled;
+            set
+            {
+                Set(ref deadlineEnabled, value);
+
+                if (value)
+                    if (DeadlineTime == null)
+                        DeadlineTime = DateTime.Now;
+                    else
+                        DeadlineTime = null;
+            }
+        }
+
+        private DateTime? deadlineTime;
+        public DateTime? DeadlineTime { get => deadlineTime; set => Set(ref deadlineTime, value); }
+
+        private TimeSpan? timeLeft;
+        public TimeSpan? TimeLeft { get => timeLeft; set => Set(ref timeLeft, value); }
+
+        private int timeProgress;
+        public int TimeProgress { get => timeProgress; set => Set(ref timeProgress, value); }
+
         public ObservableCollection<CheckList> CheckLists { get; set; }
         public ObservableCollection<TaskImage> Images { get; set; }
 
@@ -46,10 +71,23 @@ namespace WpfOrganizer.Models
             Images = new ObservableCollection<TaskImage>();
             Images.CollectionChanged += Images_CollectionChanged;
 
-
             TagManager.Inst.OnTagRemoved += TagManager_OnTagRemoved;
+            TimeManager.Inst.OnTimeUpdated += TimeManager_OnTimeUpdated;
         }
 
+        private void TimeManager_OnTimeUpdated(DateTime now)
+        {
+            if (DeadlineTime != null)
+            {
+                TimeLeft = DeadlineTime - now;
+                TimeSpan totalTimeSpan = (TimeSpan)(DeadlineTime - DateTime.Today);
+                double totalSeconds = totalTimeSpan.TotalSeconds;
+                double timeLeft = ((TimeSpan)TimeLeft).TotalSeconds;
+                TimeProgress = (int)(timeLeft / totalSeconds * (double)100);
+            }
+            else
+                TimeLeft = null;
+        }
 
         private void TagManager_OnTagRemoved(Tag removedTag)
         {

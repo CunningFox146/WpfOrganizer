@@ -4,20 +4,18 @@ using System.Windows;
 using System.Windows.Data;
 using System.Windows.Media;
 using WpfOrganizer.Models;
+using MaterialDesignThemes.Wpf;
 
 namespace WpfOrganizer.Converters
 {
-    class DateToString : IValueConverter
+    class TimeLeftToIcon : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if (value == null) return "";
-
-            var dateTime = (DateTime)value;
-
-            if (dateTime == null) return "";
-
-            return dateTime.ToLongTimeString();
+            if (value == null) return PackIconKind.ClockTimeFourOutline;
+            var hoursLeft = ((TimeSpan)value).TotalHours;
+            
+            return hoursLeft <= 1 ? PackIconKind.ClockAlertOutline : PackIconKind.ClockTimeFourOutline;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) => null;

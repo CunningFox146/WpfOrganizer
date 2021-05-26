@@ -7,17 +7,15 @@ using WpfOrganizer.Models;
 
 namespace WpfOrganizer.Converters
 {
-    class DateToString : IValueConverter
+    class TimeToTimeLeft : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if (value == null) return "";
+            if (value == null) return "Просрочено";
+            var timeSpan = (TimeSpan)value;
+            if (timeSpan == null || timeSpan.TotalSeconds < 0) return "Просрочено";
 
-            var dateTime = (DateTime)value;
-
-            if (dateTime == null) return "";
-
-            return dateTime.ToLongTimeString();
+            return timeSpan.ToString(@"hh\:mm\:ss");
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) => null;

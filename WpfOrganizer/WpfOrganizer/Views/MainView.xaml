@@ -23,6 +23,9 @@
         <c:TasksToProgress x:Key="TasksToProgress" />
         <c:TasksToProgressString x:Key="TasksToProgressString" />
         <c:DateToString x:Key="DateToString" />
+        <c:TimeToTimeLeft x:Key="TimeToTimeLeft" />
+        <c:TimeLeftToIcon x:Key="TimeLeftToIcon" />
+        <c:TimeLeftToColor x:Key="TimeLeftToColor" />
         
         <c:TagsHintVisibility x:Key="TagsHintVisibility" />
         <c:CheckListsVisibility x:Key="CheckListsVisibility" />
@@ -32,6 +35,9 @@
         <c:TagVisibility x:Key="TagVisibility" />
         <c:TaskToVisibility x:Key="TaskToVisibility" />
         <c:TaskToVisibilityReverse x:Key="TaskToVisibilityReverse" />
+        <c:DeadlineToVisibility x:Key="DeadlineToVisibility" />
+        <c:NegBooleanToVisibilityConverter x:Key="NegBooleanToVisibilityConverter" />
+        
     </UserControl.Resources>
     <DockPanel d:Background="White" ClipToBounds="True">
         <DockPanel DockPanel.Dock="Top">
@@ -192,8 +198,8 @@
         
         <Grid Grid.Row="1" DockPanel.Dock="Bottom">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="2*"/>
                 <ColumnDefinition Width="3*"/>
+                <ColumnDefinition Width="4*"/>
                 <ColumnDefinition Width="4*"/>
             </Grid.ColumnDefinitions>
 
@@ -202,8 +208,12 @@
                     <Grid.RowDefinitions>
                         <RowDefinition/>
                         <RowDefinition/>
+                        <RowDefinition/>
                     </Grid.RowDefinitions>
-                    <StackPanel VerticalAlignment="Center">
+
+                    <Image Source="/Resources/Images/logo.png" Margin="5" RenderOptions.BitmapScalingMode="HighQuality" />
+
+                    <StackPanel Grid.Row="1" VerticalAlignment="Center">
                         <DatePicker
                         SelectedDate="{Binding SelectedDate, UpdateSourceTrigger=PropertyChanged}"
                         materialDesign:HintAssist.Hint="Выберите дату"
@@ -224,8 +234,8 @@
                         </Calendar.Resources>
                     </Calendar>-->
 
-                    <Grid Grid.Row="1">
-                        <StackPanel>
+                    <Grid Grid.Row="2">
+                        <StackPanel VerticalAlignment="Bottom">
                             <Grid>
                                 <!--  BG  -->
                                 <ProgressBar
@@ -279,13 +289,21 @@
                                                     Fill="{Binding Tag.Color, Converter={StaticResource ColorToBrush}}" />
                                                     <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="DemiBold" Text="{Binding Tag.Name, Converter={StaticResource TagNameTrimmer}}"/>
                                                 </Grid>
-                                                <Grid>
-                                                    <Ellipse
-                                                    Margin="2"
-                                                    Width="30"
-                                                    Height="30"
-                                                    Fill="Orange" />
-                                                    <materialDesign:PackIcon Kind="ClockAlert" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                                <Grid Visibility="{Binding Checked, Converter={StaticResource NegBooleanToVisibilityConverter}}">
+                                                    <Grid ToolTip="{Binding TimeLeft, Converter={StaticResource TimeToTimeLeft}}" Visibility="{Binding DeadlineEnabled, Converter={StaticResource BooleanToVisibilityConverter}}">
+                                                        <Grid>
+                                                            <Ellipse
+                                                            Width="30"
+                                                            Height="30"
+                                                            Fill="{Binding TimeLeft, Converter={StaticResource TimeLeftToColor}}"/>
+                                                            <ProgressBar
+                                                            Style="{StaticResource MaterialDesignCircularProgressBar}"
+                                                            Value="{Binding TimeProgress}"
+                                                            Width="35"
+                                                            Height="35"/>
+                                                        </Grid>
+                                                        <materialDesign:PackIcon Kind="{Binding TimeLeft, Converter={StaticResource TimeLeftToIcon}}" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                                    </Grid>
                                                 </Grid>
                                                 <ToggleButton
                                                     Margin="2"
@@ -305,28 +323,47 @@
             </GroupBox>
             <GroupBox Header="Описание задания" Grid.Row="1" Grid.Column="2" Margin="5" Visibility="{Binding Tasks, Converter={StaticResource TaskToVisibilityReverse}, UpdateSourceTrigger=PropertyChanged}">
                 <ScrollViewer>
-                    <StackPanel>
+                    <StackPanel Margin="5 0 5 0">
                         <TextBox
-                                Text="{Binding SelectedTask.Name, UpdateSourceTrigger=PropertyChanged}"
-                                Style="{StaticResource MaterialDesignOutlinedTextBox}"
-                                VerticalAlignment="Top"
-                                Height="50"
-                                AcceptsReturn="True"
-                                TextWrapping="Wrap"
-                                VerticalScrollBarVisibility="Auto"
-                                materialDesign:HintAssist.Hint="Название" Cursor="IBeam"
-                            />
+                        Margin="0 5 0 5"
+                        Text="{Binding SelectedTask.Name, UpdateSourceTrigger=PropertyChanged}"
+                        Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                        VerticalAlignment="Top"
+                        Height="50"
+                        AcceptsReturn="True"
+                        TextWrapping="Wrap"
+                        VerticalScrollBarVisibility="Auto"
+                        materialDesign:HintAssist.Hint="Название" Cursor="IBeam"/>
                         <TextBox
-                                Margin="0 0 0 5"
-                                Text="{Binding SelectedTask.Description, UpdateSourceTrigger=PropertyChanged}"
-                                Style="{StaticResource MaterialDesignOutlinedTextBox}"
-                                VerticalAlignment="Top"
-                                Height="100"
-                                AcceptsReturn="True"
-                                TextWrapping="Wrap"
-                                VerticalScrollBarVisibility="Auto"
-                                materialDesign:HintAssist.Hint="Описание" Cursor="IBeam"
-                            />
+                        Margin="0 5 0 5"
+                        Text="{Binding SelectedTask.Description, UpdateSourceTrigger=PropertyChanged}"
+                        Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                        VerticalAlignment="Top"
+                        Height="100"
+                        AcceptsReturn="True"
+                        TextWrapping="Wrap"
+                        VerticalScrollBarVisibility="Auto"
+                        materialDesign:HintAssist.Hint="Описание" Cursor="IBeam"/>
+
+                        <StackPanel Margin="0 5 0 5">
+                            <Grid>
+                                <CheckBox
+                                Name="DeadlineEnabler"
+                                IsChecked="{Binding SelectedTask.DeadlineEnabled, UpdateSourceTrigger=PropertyChanged}"
+                                Content="Дедлайн"/>
+                                <TextBlock HorizontalAlignment="Right" Visibility="{Binding ElementName=DeadlineEnabler, Path=IsChecked, Converter={StaticResource BooleanToVisibilityConverter}}">
+                                    <Run Text="Осталось времени:"/>
+                                    <Run Text="{Binding SelectedTask.TimeLeft, Converter={StaticResource TimeToTimeLeft}}"/>
+                                </TextBlock>
+                            </Grid>
+                            <materialDesign:TimePicker
+                            Margin="5 0 5 0"
+                            SelectedTime="{Binding SelectedTask.DeadlineTime, UpdateSourceTrigger=PropertyChanged}"
+                            IsEnabled="{Binding ElementName=DeadlineEnabler, Path=IsChecked}"
+                            Style="{StaticResource MaterialDesignFloatingHintTimePicker}"
+                            materialDesign:HintAssist.Hint="Выберите время"/>
+                        </StackPanel>
+
                         <StackPanel Margin="0 5 0 5">
                             <TextBlock Text="Не задано ни одного тега!" Foreground="Red" Visibility="{Binding Tags, Converter={StaticResource TagsHintVisibility}}"/>
                             <ComboBox

@@ -10,7 +10,7 @@ namespace WpfOrganizer.Converters
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             Color color = (Color)value;
-            System.Diagnostics.Trace.WriteLine("Got color: " + color.ToString());
+            //System.Diagnostics.Trace.WriteLine("Got color: " + color.ToString());
             var t = new SolidColorBrush(color);
             return t;
         }
