@@ -115,7 +115,7 @@ namespace WpfOrganizer.ViewModels
         }
         
         public ICommand AddTaskCommand { get; }
-        private bool OnCanAddTaskCommand(object p) => SelectedTask.IsValid();
+        private bool OnCanAddTaskCommand(object p) => SelectedTask != null && SelectedTask.IsValid();
         private void OnAddTaskCommand(object p)
         {
             SelectedTask.ForCreation = false;
@@ -124,7 +124,7 @@ namespace WpfOrganizer.ViewModels
         }
 
         public ICommand SetCreationMode { get; }
-        private bool OnCanSetCreationMode(object p) => !SelectedTask.ForCreation;
+        private bool OnCanSetCreationMode(object p) => SelectedTask != null && !SelectedTask.ForCreation;
         private void OnSetCreationMode(object p)
         {
             SetupTaskForCreation();
@@ -150,7 +150,23 @@ namespace WpfOrganizer.ViewModels
             }
         }
 
+        public ICommand SetDateCommand { get; }
+        private bool OnCanSetDateCommand(object p) => true;
+        private void OnSetDateCommand(object p)
+        {
+            TaskData data = TaskPicker.Inst.GetTaskData(SelectedDate);
+
+            if (data != null)
+                ChangeDate(data.Tasks, data.Tags);
+        }
+
         #endregion
+
+        private DateTime currentDateTime;
+        public DateTime CurrentDateTime { get => currentDateTime; set => Set(ref currentDateTime, value); }
+
+        private DateTime selectedDate;
+        public DateTime SelectedDate { get => selectedDate; set => Set(ref selectedDate, value); }
 
         private ObservableCollection<Task> tasks;
         public ObservableCollection<Task> Tasks { get => tasks; set => Set(ref tasks, value); }
@@ -164,6 +180,7 @@ namespace WpfOrganizer.ViewModels
 
         private Tag creatingTag;
         public Tag CreatingTag { get => creatingTag; set => Set(ref creatingTag, value); }
+
 
         public MainViewModel()
         {
@@ -182,32 +199,84 @@ namespace WpfOrganizer.ViewModels
             AddCheckBoxCommand = new LambdaCommand(OnAddCheckBoxCommand, OnCanAddCheckBoxCommand);
             RemoveCheckListCommand = new LambdaCommand(OnRemoveCheckListCommand, OnCanRemoveCheckListCommand);
             RemoveCheckListItemCommand = new LambdaCommand(OnRemoveCheckListItemCommand, OnCanRemoveCheckListItemCommand);
+            SetDateCommand = new LambdaCommand(OnSetDateCommand, OnCanSetDateCommand);
 
             #endregion
 
             #region Инициализация
 
-            SelectedTask = new Task();
+            //SetupTaskForCreation();
             CreatingTag = new Tag();
+            SelectedDate = DateTime.Today;
 
-            Tasks = new ObservableCollection<Task>();
-            Tags = new ObservableCollection<Tag>();            
-            Tags.CollectionChanged += Tags_CollectionChanged;
-
-            SetupTaskForCreation();
+            CurrentDateTime = TimeManager.Inst.Now;
+            TimeManager.Inst.OnTimeUpdated += TimeManager_OnTimeUpdated;
 
             #endregion 
+        }
+
+        public void ChangeDate(ObservableCollection<Task> tasks, ObservableCollection<Tag> tags)
+        {
+            SetTasks(tasks);
+            SetTags(tags);
+
+            SetupTaskForCreation();
+            CreatingTag = new Tag();
+        }
+
+        private void SetTasks(ObservableCollection<Task> tasks)
+        {
+            if (Tasks != null)
+            {
+                Tasks.CollectionChanged -= Tasks_CollectionChanged;
+            }
+
+            Tasks = tasks;
+            Tasks.CollectionChanged += Tasks_CollectionChanged;
+            OnPropertyChanged("Tasks");
+        }
+
+        private void SetTags(ObservableCollection<Tag> tags)
+        {
+            if (Tags != null)
+            {
+                Tags.CollectionChanged -= Tags_CollectionChanged;
+            }
+
+            Tags = tags;
+            Tags.CollectionChanged += Tags_CollectionChanged;
+            OnPropertyChanged("Tags");
         }
 
         private void SetupTaskForCreation()
         {
             SelectedTask = new Task();
             SelectedTask.ForCreation = true;
+            SelectedTask.OnTaskCompleted += SelectedTask_OnTaskCompleted;
+        }
+
+        #region Ивенты
+
+        private void TimeManager_OnTimeUpdated(DateTime now)
+        {
+            CurrentDateTime = now;
+        }
+
+        private void SelectedTask_OnTaskCompleted(bool completed)
+        {
+            OnPropertyChanged("Tasks");
+        }
+
+        private void Tasks_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            OnPropertyChanged("Tasks");
         }
 
         private void Tags_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
             OnPropertyChanged("Tags");
         }
+
+        #endregion
     }
 }

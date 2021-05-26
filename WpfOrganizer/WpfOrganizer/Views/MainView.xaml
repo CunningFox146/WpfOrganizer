@@ -20,6 +20,9 @@
         <c:TagNameTrimmer x:Key="TagNameTrimmer" />
         <c:TagsEnabled x:Key="TagsEnabled" />
         <c:ListToPercent x:Key="ListToPercent" />
+        <c:TasksToProgress x:Key="TasksToProgress" />
+        <c:TasksToProgressString x:Key="TasksToProgressString" />
+        <c:DateToString x:Key="DateToString" />
         
         <c:TagsHintVisibility x:Key="TagsHintVisibility" />
         <c:CheckListsVisibility x:Key="CheckListsVisibility" />
@@ -27,6 +30,8 @@
         <c:CreatingTaskVisibility x:Key="CreatingTaskVisibility" />
         <c:DeleteTaskVisibility x:Key="DeleteTaskVisibility" />
         <c:TagVisibility x:Key="TagVisibility" />
+        <c:TaskToVisibility x:Key="TaskToVisibility" />
+        <c:TaskToVisibilityReverse x:Key="TaskToVisibilityReverse" />
     </UserControl.Resources>
     <DockPanel d:Background="White" ClipToBounds="True">
         <DockPanel DockPanel.Dock="Top">
@@ -173,8 +178,7 @@
                     </materialDesign:Flipper>
                 </materialDesign:PopupBox>
             </Grid>
-            
-            
+            <TextBlock Text="{Binding CurrentDateTime, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource DateToString}}" VerticalAlignment="Center"/>
             <materialDesign:Chip
                 HorizontalAlignment="Right"
                 DockPanel.Dock="Right"
@@ -199,10 +203,15 @@
                         <RowDefinition/>
                         <RowDefinition/>
                     </Grid.RowDefinitions>
+                    <StackPanel VerticalAlignment="Center">
+                        <DatePicker
+                        SelectedDate="{Binding SelectedDate, UpdateSourceTrigger=PropertyChanged}"
+                        materialDesign:HintAssist.Hint="Выберите дату"
+                        Style="{StaticResource MaterialDesignOutlinedDatePicker}"/>
 
-                    <DatePicker
-                    materialDesign:HintAssist.Hint="Выберите дату"
-                    Style="{StaticResource MaterialDesignOutlinedDatePicker}" />
+                        <Button Margin="20" Width="100" Content="Выбрать" Command="{Binding SetDateCommand}" />
+                    </StackPanel>
+
                     <!--<Calendar
                     Padding="5"
                     Grid.Row="0"
@@ -216,25 +225,33 @@
                     </Calendar>-->
 
                     <Grid Grid.Row="1">
-                        <!--  BG  -->
-                        <ProgressBar
-                            Width="125"
-                            Height="125"
-                            Value="100"
-                            Foreground="LightGray"
-                            Style="{StaticResource MaterialDesignCircularProgressBar}" />
-                        <ProgressBar
-                            Width="125"
-                            Height="125"
-                            Value="50"
-                            Style="{StaticResource MaterialDesignCircularProgressBar}" />
-                        <TextBlock Text="50%" HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Bold" FontSize="25"/>
-                        <TextBlock Margin="0 0 0 1" HorizontalAlignment="Center" VerticalAlignment="Bottom">35/70</TextBlock>
+                        <StackPanel>
+                            <Grid>
+                                <!--  BG  -->
+                                <ProgressBar
+                                    Width="125"
+                                    Height="125"
+                                    Value="100"
+                                    Foreground="LightGray"
+                                    Style="{StaticResource MaterialDesignCircularProgressBar}" />
+                                
+                                <ProgressBar
+                                    Width="125"
+                                    Height="125"
+                                    Value="{Binding Tasks, Converter={StaticResource TasksToProgress}}"
+                                    Style="{StaticResource MaterialDesignCircularProgressBar}" />
+                                <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Bold" FontSize="25">
+                                    <Run Text="{Binding Tasks, Converter={StaticResource TasksToProgress}, UpdateSourceTrigger=PropertyChanged}"/>
+                                    <Run Text="%"/>
+                                </TextBlock>
+                            </Grid>
+                            <TextBlock Margin="0 0 0 1" HorizontalAlignment="Center" VerticalAlignment="Bottom" Text="{Binding Tasks, Converter={StaticResource TasksToProgressString}}"/>
+                        </StackPanel>
                     </Grid>
                 </Grid>
             </GroupBox>
 
-            <GroupBox Header="Ваши задания" Grid.Row="1" Grid.Column="1" Margin="5">
+            <GroupBox Header="Ваши задания" Grid.Row="1" Grid.Column="1" Margin="5" Visibility="{Binding Tasks, Converter={StaticResource TaskToVisibilityReverse}, UpdateSourceTrigger=PropertyChanged}">
                 <ScrollViewer>
                     <DataGrid
                     ItemsSource="{Binding Tasks}"
@@ -253,26 +270,31 @@
                                                 <ColumnDefinition Width="auto"/>
                                             </Grid.ColumnDefinitions>
                                             <TextBlock Grid.Column="0" Text="{Binding Name}" TextWrapping="Wrap" HorizontalAlignment="Left" />
-                                            <Grid Grid.Column="1" HorizontalAlignment="Right">
-                                                <Grid.ColumnDefinitions>
-                                                    <ColumnDefinition/>
-                                                    <ColumnDefinition/>
-                                                </Grid.ColumnDefinitions>
+                                            <StackPanel Grid.Column="1" HorizontalAlignment="Right" Orientation="Horizontal">
                                                 <Grid Visibility="{Binding Tag, Converter={StaticResource TagVisibility}}">
                                                     <Ellipse
-                                                    Margin="5 0 5 0"
+                                                    Margin="2"
                                                     Width="30"
                                                     Height="30"
                                                     Fill="{Binding Tag.Color, Converter={StaticResource ColorToBrush}}" />
                                                     <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="DemiBold" Text="{Binding Tag.Name, Converter={StaticResource TagNameTrimmer}}"/>
                                                 </Grid>
+                                                <Grid>
+                                                    <Ellipse
+                                                    Margin="2"
+                                                    Width="30"
+                                                    Height="30"
+                                                    Fill="Orange" />
+                                                    <materialDesign:PackIcon Kind="ClockAlert" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                                </Grid>
                                                 <ToggleButton
+                                                    Margin="2"
                                                     Grid.Column="1"    
                                                     Content="{materialDesign:PackIcon Kind=Close, Size=21}"
                                                     Style="{StaticResource MaterialDesignActionLightToggleButton}"
-                                                    IsChecked="{Binding Checked}"
+                                                    IsChecked="{Binding Checked, UpdateSourceTrigger=PropertyChanged}"
                                                     ToolTip="MaterialDesignActionLightToggleButton" />
-                                            </Grid>
+                                            </StackPanel>
                                         </Grid>
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>
@@ -281,7 +303,7 @@
                     </DataGrid>
                 </ScrollViewer>
             </GroupBox>
-            <GroupBox Header="Описание задания" Grid.Row="1" Grid.Column="2" Margin="5">
+            <GroupBox Header="Описание задания" Grid.Row="1" Grid.Column="2" Margin="5" Visibility="{Binding Tasks, Converter={StaticResource TaskToVisibilityReverse}, UpdateSourceTrigger=PropertyChanged}">
                 <ScrollViewer>
                     <StackPanel>
                         <TextBox
@@ -634,6 +656,27 @@
                     </StackPanel>
                 </ScrollViewer>
             </GroupBox>
+            <Grid Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" d:Visibility="Collapsed" Visibility="{Binding Tasks, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource TaskToVisibility}}">
+                <materialDesign:Card
+                    Width="350"
+                    Height="300"
+                    materialDesign:ShadowAssist.ShadowDepth="Depth3">
+                    <Grid>
+                        <TextBlock
+                        Margin="10"
+                        HorizontalAlignment="Center"
+                        Style="{StaticResource MaterialDesignHeadline4TextBlock}"
+                        FontWeight="Bold"
+                        Text="Дата не выбрана" />
+                        <TextBlock
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                            TextAlignment="Center"
+                        Style="{StaticResource MaterialDesignHeadline5TextBlock}"
+                        Text="Выберите дату в панели слева и нажмите кнопку для продолжения работы" TextWrapping="Wrap" Width="350" />
+                    </Grid>
+                </materialDesign:Card>
+            </Grid>
         </Grid>
     </DockPanel>
 </UserControl>

@@ -68,4 +68,20 @@ namespace WpfOrganizer.Converters
             return tag != null ? Visibility.Visible : Visibility.Collapsed;
         }
     }
+
+    class TaskToVisibility : ControlVisibility
+    {
+        public override object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            return value == null ? Visibility.Visible : Visibility.Collapsed;
+        }
+    }
+
+    class TaskToVisibilityReverse : ControlVisibility
+    {
+        public override object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            return value == null ? Visibility.Collapsed : Visibility.Visible;
+        }
+    }
 }

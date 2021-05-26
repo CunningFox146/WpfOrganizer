@@ -20,13 +20,24 @@ namespace WpfOrganizer.Models
         public Tag Tag { get => tag; set => Set(ref tag, value); }
 
         private bool isChecked = false;
-        public bool Checked { get => isChecked; set => Set(ref isChecked, value); }
+        public bool Checked
+        {
+            get => isChecked;
+            set
+            {
+                Set(ref isChecked, value);
+                OnTaskCompleted?.Invoke(value);
+            }
+        }
 
         public ObservableCollection<CheckList> CheckLists { get; set; }
         public ObservableCollection<TaskImage> Images { get; set; }
 
         private bool forCreation = false;
         public bool ForCreation { get => forCreation; set => Set(ref forCreation, value); }
+
+        public delegate void TaskCompleted(bool completed);
+        public event TaskCompleted OnTaskCompleted;
 
         public Task()
         {
