@@ -98,11 +98,12 @@
                     <materialDesign:Card Margin="5" materialDesign:ShadowAssist.ShadowDepth="Depth3">
                         <StackPanel>
                             <TextBlock Text="Цветовая схема:" Margin="10" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                            <materialDesign:ColorPicker Height="154" Margin="10"/>
+                            <materialDesign:ColorPicker Height="154" Margin="10" Color="{Binding CurrentColor}"/>
                             <Button
+                            Command="{Binding ChangeThemeCommand}"
                             Margin ="5"
                             Style="{StaticResource MaterialDesignRaisedLightButton}"
-                            Content="Принять" />
+                            Content="Принять" Cursor="Hand" />
                         </StackPanel>
                     </materialDesign:Card>
                     <materialDesign:Card Grid.Column="1" Margin="5" materialDesign:ShadowAssist.ShadowDepth="Depth3">
@@ -115,20 +116,22 @@
                                 </Grid.ColumnDefinitions>
                                 <TextBlock Text="Уведомление при 1 часе" VerticalAlignment="Center" HorizontalAlignment="Right"/>
                                 <ToggleButton
+                                IsChecked="{Binding Notify60}"
+                                Command="{Binding UpdateNotificationCommand}"
                                 Grid.Column="1"
-                                HorizontalAlignment="Center"
-                                IsChecked="True"/>
+                                HorizontalAlignment="Center"/>
                             </Grid>
                             <Grid Margin="5">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition/>
                                     <ColumnDefinition/>
                                 </Grid.ColumnDefinitions>
-                                <TextBlock Text="Уведомление при 30 минутах" VerticalAlignment="Center" HorizontalAlignment="Right"/>
+                                <TextBlock Text="Уведомление при 15 минутах" VerticalAlignment="Center" HorizontalAlignment="Right"/>
                                 <ToggleButton
+                                IsChecked="{Binding Notify15}"
+                                Command="{Binding UpdateNotificationCommand}"
                                 Grid.Column="1"
-                                HorizontalAlignment="Center"
-                                IsChecked="True"/>
+                                HorizontalAlignment="Center"/>
                             </Grid>
                             <Grid Margin="5">
                                 <Grid.ColumnDefinitions>
@@ -137,9 +140,10 @@
                                 </Grid.ColumnDefinitions>
                                 <TextBlock Text="Уведомление при 5 минутах" VerticalAlignment="Center" HorizontalAlignment="Right"/>
                                 <ToggleButton
+                                IsChecked="{Binding Notify5}"
+                                Command="{Binding UpdateNotificationCommand}"
                                 Grid.Column="1"
-                                HorizontalAlignment="Center"
-                                IsChecked="True"/>
+                                HorizontalAlignment="Center"/>
                             </Grid>
                             <Grid Margin="5">
                                 <Grid.ColumnDefinitions>
@@ -148,9 +152,10 @@
                                 </Grid.ColumnDefinitions>
                                 <TextBlock Text="Уведомление при 1 минуте" VerticalAlignment="Center" HorizontalAlignment="Right"/>
                                 <ToggleButton
+                                IsChecked="{Binding Notify1}"
+                                Command="{Binding UpdateNotificationCommand}"
                                 Grid.Column="1"
-                                HorizontalAlignment="Center"
-                                IsChecked="True"/>
+                                HorizontalAlignment="Center"/>
                             </Grid>
                             <Grid Margin="5">
                                 <Grid.ColumnDefinitions>
@@ -159,9 +164,10 @@
                                 </Grid.ColumnDefinitions>
                                 <TextBlock Text="Уведомление о просрочке" VerticalAlignment="Center" HorizontalAlignment="Right"/>
                                 <ToggleButton
+                                IsChecked="{Binding NotifyExpired}"
+                                Command="{Binding UpdateNotificationCommand}"
                                 Grid.Column="1"
-                                HorizontalAlignment="Center"
-                                IsChecked="True"/>
+                                HorizontalAlignment="Center"/>
                             </Grid>
                         </StackPanel>
                     </materialDesign:Card>

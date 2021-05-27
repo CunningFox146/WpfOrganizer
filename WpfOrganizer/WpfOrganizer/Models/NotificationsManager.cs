@@ -14,10 +14,11 @@ namespace WpfOrganizer.Models
         {
             int seconds = (int)(timeLeft.TotalSeconds);
             //Trace.WriteLine(seconds);
-            if ((seconds == 60 * 60 && true) ||
-                (seconds == 15 * 60 && true) ||
-                (seconds == 5 * 60 && true) ||
-                (seconds == 1 * 60 && true))
+
+            if ((seconds == 60 * 60 && AppSettings.NotifyOn60) ||
+                (seconds == 15 * 60 && AppSettings.NotifyOn15) ||
+                (seconds == 5 * 60 && AppSettings.NotifyOn5) ||
+                (seconds == 1 * 60 && AppSettings.NotifyOn1))
             {
                 var notificationManager = new NotificationManager();
 
@@ -32,7 +33,7 @@ namespace WpfOrganizer.Models
 
         public static void ShowTaskExpired(string taskName)
         {
-            if (true)
+            if (AppSettings.NotifyOnExpired)
             {
                 var notificationManager = new NotificationManager();
 

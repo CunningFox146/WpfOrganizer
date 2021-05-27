@@ -87,11 +87,14 @@ namespace WpfOrganizer.Models
 
                 System.Diagnostics.Trace.WriteLine($"{(int)(timeLeft - 1)}, {(int)(timeLeft)}, {timeLeft}");
 
-                if ((int)timeLeft == 0) // Это просто ужасно, просто кошмарно, но времени на норм решение нету
-                    if (timeLeft > 0)
-                        NotificationsManager.ShowTaskExpired(Name);
-                else
-                    NotificationsManager.ShowTaskWarning(Name, (TimeSpan)TimeLeft);
+                if (!ForCreation && !Checked)
+                {
+                    if ((int)timeLeft == 0) // Это просто ужасно, просто кошмарно, но времени на норм решение нету
+                        if (timeLeft > 0)
+                            NotificationsManager.ShowTaskExpired(Name);
+                        else
+                            NotificationsManager.ShowTaskWarning(Name, (TimeSpan)TimeLeft);
+                }
             }
             else
                 TimeLeft = null;
