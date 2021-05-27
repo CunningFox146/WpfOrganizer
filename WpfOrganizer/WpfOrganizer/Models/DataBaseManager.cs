@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
 using System.Linq;
 using WpfOrganizer.DataBase;
 
@@ -15,14 +16,32 @@ namespace WpfOrganizer.Models
                 
                 foreach (DataBaseUser dbUser in dbUsers)
                 {
-                    users.Add(new User()
-                    {
-                        
-                    });
+                    users.Add(DataBaseUser.ToUser(dbUser));
                 }
             }
 
             return users;
+        }
+        
+        // Невероятная архитектура говна: Загружаемся только при открытии, сохраняемся только при закрытии
+        public static void Save()
+        {
+            var usersToSave = Users.Inst.RegisteredUsers;
+            using (ApplicationContext db = new ApplicationContext())
+            {
+                var dbUsers = db.Users.ToList();
+                foreach (var user in dbUsers)
+                {
+                    db.Users.Remove(user);
+                }
+
+                foreach (var user in usersToSave)
+                {
+                    db.Users.Add(DataBaseUser.ToDb(user));
+                }
+
+                db.SaveChanges();
+            }
         }
     }
 }

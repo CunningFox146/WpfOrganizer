@@ -6,6 +6,8 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
+using WpfOrganizer.DataBase;
+using WpfOrganizer.Models;
 
 namespace WpfOrganizer
 {
@@ -16,7 +18,7 @@ namespace WpfOrganizer
     {
         private void Application_Exit(object sender, ExitEventArgs e)
         {
-            
+            DataBaseManager.Save();
         }
     }
 

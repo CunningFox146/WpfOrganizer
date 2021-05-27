@@ -23,5 +23,15 @@ namespace WpfOrganizer.DataBase
                 TaskPicker = DataBaseTaskPicker.ToTaskPicker(user.TaskPicker)
             };
         }
+
+        static public DataBaseUser ToDb(User user)
+        {
+            return new DataBaseUser()
+            {
+                Name = user.Name,
+                Password = user.Password,
+                TaskPicker = DataBaseTaskPicker.ToDb(user.TaskPicker)
+            };
+        }
     }
 }

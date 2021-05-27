@@ -82,5 +82,10 @@ namespace WpfOrganizer.Models
             CurrentUser.ImageUrl = url;
             OnUserChanged?.Invoke(CurrentUser);
         }
+
+        public Users()
+        {
+            RegisteredUsers = DataBaseManager.GetUsers();
+        }
     }
 }

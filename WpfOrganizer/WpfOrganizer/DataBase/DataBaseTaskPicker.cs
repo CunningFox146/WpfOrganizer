@@ -14,6 +14,7 @@ namespace WpfOrganizer.DataBase
 
         public static TaskPicker ToTaskPicker(DataBaseTaskPicker data)
         {
+            if (data == null) return null;
             var newData = new TaskPicker();
 
             var list = new List<TaskData>();
@@ -30,6 +31,7 @@ namespace WpfOrganizer.DataBase
 
         public static DataBaseTaskPicker ToDb(TaskPicker data)
         {
+            if (data == null) return null;
             var newData = new DataBaseTaskPicker();
 
             var list = new List<DataBaseTaskData>();
