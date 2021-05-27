@@ -66,13 +66,23 @@ namespace WpfOrganizer.Models
 
         public Task()
         {
-            CheckLists = new ObservableCollection<CheckList>();
-            CheckLists.CollectionChanged += CheckLists_CollectionChanged;
-            Images = new ObservableCollection<TaskImage>();
-            Images.CollectionChanged += Images_CollectionChanged;
+            SetImages(null);
+            SetCheckLists(null);
 
             TagManager.Inst.OnTagRemoved += TagManager_OnTagRemoved;
             TimeManager.Inst.OnTimeUpdated += TimeManager_OnTimeUpdated;
+        }
+
+        public void SetImages(List<TaskImage> images)
+        {
+            Images = images != null ? new ObservableCollection<TaskImage>() : new ObservableCollection<TaskImage>(images);
+            Images.CollectionChanged += Images_CollectionChanged;
+        }
+
+        public void SetCheckLists(List<CheckList> lists)
+        {
+            CheckLists = lists != null ? new ObservableCollection<CheckList>() : new ObservableCollection<CheckList>(lists);
+            CheckLists.CollectionChanged += CheckLists_CollectionChanged;
         }
 
         private void TimeManager_OnTimeUpdated(DateTime now)

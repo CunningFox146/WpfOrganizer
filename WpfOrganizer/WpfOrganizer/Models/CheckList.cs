@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Globalization;
 using System.Runtime.CompilerServices;
+using WpfOrganizer.DataBase;
 using WpfOrganizer.Util;
 
 namespace WpfOrganizer.Models
@@ -44,12 +45,16 @@ namespace WpfOrganizer.Models
 
         public CheckList()
         {
-            Items = new ObservableCollection<CheckListItem>();
-            Items.CollectionChanged += Items_CollectionChanged;
+            
 
             OnItemChecked(false);
         }
 
+        public void SetItems(List<CheckListItem> items)
+        {
+            Items = items != null ? new ObservableCollection<CheckListItem>(items) : new ObservableCollection<CheckListItem>();
+            Items.CollectionChanged += Items_CollectionChanged;
+        }
 
         public void OnItemChecked(bool Checked)
         {

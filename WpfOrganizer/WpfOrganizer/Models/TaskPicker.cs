@@ -51,7 +51,7 @@ namespace WpfOrganizer.Models
             return data;
         }
 
-        private TaskPicker()
+        public TaskPicker()
         {
             Tasks = new ObservableCollection<TaskData>();
         }
