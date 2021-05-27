@@ -4,6 +4,7 @@ using System.Text;
 using System.Windows.Controls;
 using System.Windows.Input;
 using WpfOrganizer.Commands;
+using WpfOrganizer.Models;
 using WpfOrganizer.Util;
 
 namespace WpfOrganizer.ViewModels
@@ -23,10 +24,20 @@ namespace WpfOrganizer.ViewModels
         private bool OnCanRegisterCommand(object p) => !String.IsNullOrEmpty(Login);
         private void OnRegisterCommand(object p)
         {
+            var users = Users.Inst;
             PasswordBox pwBox = p as PasswordBox;
 
-            //SomeBlackBoxClass.ValidatePassword(UserName, pwBox.Password);
-            MainWindowViewModel.Inst.CurrentView = AppViews.Main;
+            var newUser = users.CreateUser(Login, pwBox.Password);
+
+            if (newUser != null)
+            {
+                users.CurrentUser = newUser;
+                MainWindowViewModel.Inst.CurrentView = AppViews.Main;
+            }
+            else
+            {
+                NotificationsManager.NotifyDuplicateName();
+            }
         }
 
         #endregion

@@ -4,6 +4,7 @@ using System.Text;
 using System.Windows.Controls;
 using System.Windows.Input;
 using WpfOrganizer.Commands;
+using WpfOrganizer.Models;
 using WpfOrganizer.Util;
 
 namespace WpfOrganizer.ViewModels
@@ -17,9 +18,18 @@ namespace WpfOrganizer.ViewModels
         private void OnLoginCommand(object p)
         {
             PasswordBox pwBox = p as PasswordBox;
+            var users = Users.Inst;
 
-            //SomeBlackBoxClass.ValidatePassword(UserName, pwBox.Password);
-            MainWindowViewModel.Inst.CurrentView = AppViews.Main;
+            var user = users.TryLogin(Login, pwBox.Password);
+            if (user != null)
+            {
+                users.CurrentUser = user;
+                MainWindowViewModel.Inst.CurrentView = AppViews.Main;
+            }
+            else
+            {
+                NotificationsManager.NotifyWrongLoginInfo();
+            }
         }
 
         public ICommand RegisterCommand { get; }

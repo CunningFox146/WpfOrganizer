@@ -191,7 +191,7 @@
                 DockPanel.Dock="Right"
                 Content="James Willock" Cursor="Hand">
                 <materialDesign:Chip.Icon>
-                    <Image Source="/Views/default_profile.png" />
+                    <Image Source="/Resources/Images/default_profile.png" />
                 </materialDesign:Chip.Icon>
             </materialDesign:Chip>
         </DockPanel>

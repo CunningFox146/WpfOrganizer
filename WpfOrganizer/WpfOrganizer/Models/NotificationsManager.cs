@@ -10,6 +10,8 @@ namespace WpfOrganizer.Models
 {
     static class NotificationsManager
     {
+        private static NotificationManager notificationManager = new NotificationManager();
+
         public static void ShowTaskWarning(string taskName, TimeSpan timeLeft)
         {
             int seconds = (int)(timeLeft.TotalSeconds);
@@ -20,8 +22,6 @@ namespace WpfOrganizer.Models
                 (seconds == 5 * 60 && AppSettings.NotifyOn5) ||
                 (seconds == 1 * 60 && AppSettings.NotifyOn1))
             {
-                var notificationManager = new NotificationManager();
-
                 notificationManager.ShowAsync(new NotificationContent
                 {
                     Title = "Оповещение о задании",
@@ -35,8 +35,6 @@ namespace WpfOrganizer.Models
         {
             if (AppSettings.NotifyOnExpired)
             {
-                var notificationManager = new NotificationManager();
-
                 notificationManager.ShowAsync(new NotificationContent
                 {
                     Title = "Задание просрочено",
@@ -44,6 +42,36 @@ namespace WpfOrganizer.Models
                     Type = NotificationType.Error
                 });
             }
+        }
+
+        public static void NotifyDuplicateName()
+        {
+            notificationManager.ShowAsync(new NotificationContent
+            {
+                Title = "Ошибка регистрации",
+                Message = $"Пользователь с таким именем уже зарегистрирован.",
+                Type = NotificationType.Error
+            });
+        }
+
+        public static void NotifyWrongLoginInfo()
+        {
+            notificationManager.ShowAsync(new NotificationContent
+            {
+                Title = "Ошибка входа",
+                Message = $"Введено неверное имя или пароль.",
+                Type = NotificationType.Error
+            });
+        }
+
+        public static void NotifyPasswordsDontMatch()
+        {
+            notificationManager.ShowAsync(new NotificationContent
+            {
+                Title = "Ошибка паролей",
+                Message = $"Введенные пароли не совпадают.",
+                Type = NotificationType.Error
+            });
         }
     }
 }
