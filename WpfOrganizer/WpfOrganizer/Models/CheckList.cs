@@ -30,6 +30,10 @@ namespace WpfOrganizer.Models
         {
             OnItemChecked += checkList.OnItemChecked;
         }
+
+        public CheckListItem()
+        {
+        }
     }
 
     class CheckList : Notifyer
@@ -41,11 +45,12 @@ namespace WpfOrganizer.Models
         public ObservableCollection<CheckListItem> Items { get => items; set => Set(ref items, value); }
 
         private int percent;
+        [Newtonsoft.Json.JsonIgnore]
         public int Percent { get => percent; set => Set(ref percent, value); }
 
         public CheckList()
         {
-            
+            SetItems(null);
 
             OnItemChecked(false);
         }

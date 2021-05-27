@@ -131,9 +131,10 @@ namespace WpfOrganizer.ViewModels
         }
 
         public ICommand CreateTagCommand { get; }
-        private bool OnCanCreateTagCommand(object p) => !String.IsNullOrEmpty(CreatingTag.Name);
+        private bool OnCanCreateTagCommand(object p) => CreatingTag != null && !String.IsNullOrEmpty(CreatingTag.Name);
         private void OnCreateTagCommand(object p)
         {
+            if (CreatingTag == null) return;
             Tags.Add(CreatingTag);
             CreatingTag = new Tag();
         }

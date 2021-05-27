@@ -50,15 +50,18 @@ namespace WpfOrganizer.Models
         public DateTime? DeadlineTime { get => deadlineTime; set => Set(ref deadlineTime, value); }
 
         private TimeSpan? timeLeft;
+        [Newtonsoft.Json.JsonIgnore]
         public TimeSpan? TimeLeft { get => timeLeft; set => Set(ref timeLeft, value); }
 
         private int timeProgress;
+        [Newtonsoft.Json.JsonIgnore]
         public int TimeProgress { get => timeProgress; set => Set(ref timeProgress, value); }
 
         public ObservableCollection<CheckList> CheckLists { get; set; }
         public ObservableCollection<TaskImage> Images { get; set; }
 
         private bool forCreation = false;
+        [Newtonsoft.Json.JsonIgnore]
         public bool ForCreation { get => forCreation; set => Set(ref forCreation, value); }
 
         public delegate void TaskCompleted(bool completed);

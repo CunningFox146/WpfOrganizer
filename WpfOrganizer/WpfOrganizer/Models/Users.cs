@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using WpfOrganizer.DataBase;
 using WpfOrganizer.Util;
 
 namespace WpfOrganizer.Models
@@ -85,7 +86,8 @@ namespace WpfOrganizer.Models
 
         public Users()
         {
-            RegisteredUsers = DataBaseManager.GetUsers();
+            List<User> loaded = Test.GetUsers();
+            RegisteredUsers = loaded ?? new List<User>();//DataBaseManager.GetUsers();
         }
     }
 }

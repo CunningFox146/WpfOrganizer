@@ -18,7 +18,7 @@ namespace WpfOrganizer
     {
         private void Application_Exit(object sender, ExitEventArgs e)
         {
-            DataBaseManager.Save();
+            Test.Save();
         }
     }
 
