@@ -176,6 +176,9 @@ namespace WpfOrganizer.ViewModels
 
         #endregion
 
+        private User currentUser;
+        public User CurrentUser { get => currentUser; set => Set(ref currentUser, value); }
+
         private DateTime currentDateTime;
         public DateTime CurrentDateTime { get => currentDateTime; set => Set(ref currentDateTime, value); }
 
@@ -231,7 +234,15 @@ namespace WpfOrganizer.ViewModels
             CurrentDateTime = TimeManager.Inst.Now;
             TimeManager.Inst.OnTimeUpdated += TimeManager_OnTimeUpdated;
 
+            CurrentUser = Users.Inst.CurrentUser;
+            Users.Inst.OnUserChanged += Users_OnUserChanged;
+
             #endregion 
+        }
+
+        private void Users_OnUserChanged(User user)
+        {
+            CurrentUser = user;
         }
 
         public void ChangeDate(ObservableCollection<Task> tasks, ObservableCollection<Tag> tags)

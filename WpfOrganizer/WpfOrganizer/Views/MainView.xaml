@@ -189,9 +189,9 @@
                 Command="{Binding SettingsCommand}"
                 HorizontalAlignment="Right"
                 DockPanel.Dock="Right"
-                Content="James Willock" Cursor="Hand">
+                Content="{Binding CurrentUser.Name, UpdateSourceTrigger=PropertyChanged}" Cursor="Hand">
                 <materialDesign:Chip.Icon>
-                    <Image Source="/Resources/Images/default_profile.png" />
+                    <Image Source="{Binding CurrentUser.ImageUrl, UpdateSourceTrigger=PropertyChanged}" />
                 </materialDesign:Chip.Icon>
             </materialDesign:Chip>
         </DockPanel>

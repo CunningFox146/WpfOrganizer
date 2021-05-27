@@ -1,7 +1,9 @@
 ﻿using MaterialDesignThemes.Wpf;
+using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using WpfOrganizer.Commands;
@@ -31,6 +33,7 @@ namespace WpfOrganizer.ViewModels
         private bool OnCanUpdateNotificationCommand(object p) => true;
         private void OnUpdateNotificationCommand(object p)
         {
+            // Эф
             AppSettings.NotifyOn60 = Notify60;
             AppSettings.NotifyOn15 = Notify15;
             AppSettings.NotifyOn5 = Notify5;
@@ -38,7 +41,62 @@ namespace WpfOrganizer.ViewModels
             AppSettings.NotifyOnExpired = NotifyExpired;
         }
 
+        public ICommand ChangeNameCommand { get; }
+        private bool OnCanChangeNameCommand(object p) => true;
+        private void OnChangeNameCommand(object p)
+        {
+            var name = (string)p;
+            if (name == null || String.IsNullOrEmpty(name)) return;
+            if (Users.Inst.TryChangeNameForCurrentUser(name))
+            {
+                NotificationsManager.NotifyNameChanged(name);
+            }
+            else
+            {
+                NotificationsManager.NotifyNameChangeFailed();
+            }
+        }
+
+        public ICommand LogOutCommand { get; }
+        private bool OnCanLogOutCommand(object p) => true;
+        private void OnLogOutCommand(object p)
+        {
+            MainWindowViewModel.Inst.CurrentView = AppViews.Login;
+        }
+
+        public ICommand ChangePasswordCommand { get; }
+        private bool OnCanChangePasswordCommand(object p) => true;
+        private void OnChangePasswordCommand(object p)
+        {
+            PasswordBox pwBox = p as PasswordBox;
+            if (Users.Inst.TryChangePasswordForCurrentUser(pwBox.Password))
+            {
+                NotificationsManager.NotifyPasswordChanged();
+            }
+            else
+            {
+                NotificationsManager.NotifyPasswordChangeFailed();
+            }
+        }
+
+        public ICommand ChangeAvatarCommand { get; }
+        private bool OnCanChangeAvatarCommand(object p) => true;
+        private void OnChangeAvatarCommand(object p)
+        {
+            var dlg = new OpenFileDialog();
+            dlg.Filter = "Image files (*.png;*.jpg)|*.png;*.jpg";
+
+            if (dlg.ShowDialog() == true)
+            {
+                Users.Inst.ChangeAvatarForCurrentUser(dlg.FileName);
+                NotificationsManager.NotifyAvatarChanged();
+            }
+        }
+
         #endregion
+
+        private User currentUser;
+        public User CurrentUser { get => currentUser; set => Set(ref currentUser, value); }
 
         private Color currentColor;
         public Color CurrentColor { get => currentColor; set => Set(ref currentColor, value); }
@@ -61,6 +119,10 @@ namespace WpfOrganizer.ViewModels
             ChangeThemeCommand = new LambdaCommand(OnChangeThemeCommand, OnCanChangeThemeCommand);
             BackCommand = new LambdaCommand(OnBackCommand, OnCanBackCommand);
             UpdateNotificationCommand = new LambdaCommand(OnUpdateNotificationCommand, OnCanUpdateNotificationCommand);
+            ChangeNameCommand = new LambdaCommand(OnChangeNameCommand, OnCanChangeNameCommand);
+            LogOutCommand = new LambdaCommand(OnLogOutCommand, OnCanLogOutCommand);
+            ChangePasswordCommand = new LambdaCommand(OnChangePasswordCommand, OnCanChangePasswordCommand);
+            ChangeAvatarCommand = new LambdaCommand(OnChangeAvatarCommand, OnCanChangeAvatarCommand);
 
             #endregion
 
@@ -69,6 +131,15 @@ namespace WpfOrganizer.ViewModels
             Notify5 = AppSettings.NotifyOn5;
             Notify1 = AppSettings.NotifyOn1;
             NotifyExpired = AppSettings.NotifyOnExpired;
+
+            CurrentUser = Users.Inst.CurrentUser;
+            Users.Inst.OnUserChanged += Users_OnUserChanged;
+        }
+
+
+        private void Users_OnUserChanged(User user)
+        {
+            CurrentUser = user;
         }
     }
 }

@@ -29,15 +29,20 @@
                             HorizontalAlignment="Left"
                             Width="150"
                             Height="150"
-                            Fill="red"
                             materialDesign:ShadowAssist.ShadowDepth="Depth3"
-                            />
+                            >
+                                <Ellipse.Fill>
+                                    <ImageBrush ImageSource="{Binding CurrentUser.ImageUrl}" Stretch="Fill"></ImageBrush>
+                                </Ellipse.Fill>
+                            </Ellipse>
                             <Button
                             Margin="5"
+                            Command="{Binding ChangeAvatarCommand}"
                             Style="{StaticResource MaterialDesignRaisedLightButton}"
                             ToolTip="Resource name: MaterialDesignRaisedLightButton"
                             Content="Сменить аватар" />
                             <Button
+                            Command="{Binding LogOutCommand}"
                             Margin="5"
                             Style="{StaticResource MaterialDesignRaisedLightButton}"
                             ToolTip="Resource name: MaterialDesignRaisedLightButton"
@@ -48,7 +53,6 @@
                                 <RowDefinition/>
                                 <RowDefinition/>
                                 <RowDefinition/>
-                                <RowDefinition/>
                             </Grid.RowDefinitions>
                             <Grid>
                                 <Grid.ColumnDefinitions>
@@ -56,35 +60,35 @@
                                     <ColumnDefinition Width="1*"/>
                                 </Grid.ColumnDefinitions>
                                 <TextBox
+                                Name ="ChangeNameTextBox"
                                 Margin="0 10 0 10"
-                                materialDesign:HintAssist.Hint="Name"
+                                materialDesign:HintAssist.Hint="Имя"
                                 materialDesign:HintAssist.HelperText="Helper text longer than error" Cursor="IBeam"/>
                                 <Button
                                 Grid.Column="1"
+                                CommandParameter="{Binding ElementName=ChangeNameTextBox, Path=Text}"
+                                Command="{Binding ChangeNameCommand}"
                                 Style="{StaticResource MaterialDesignFloatingActionMiniLightButton}"
-                                ToolTip="MaterialDesignFloatingActionMiniLightButton">
+                                ToolTip="MaterialDesignFloatingActionMiniLightButton" Cursor="Hand">
                                     <materialDesign:PackIcon Kind="Edit"/>
                                 </Button>
                             </Grid>
                             <PasswordBox
+                                x:Name="CurrentPassword"
                             Margin="0 10 0 10"
                             Grid.Row="1"
-                            materialDesign:HintAssist.Hint="Password"
-                            materialDesign:TextFieldAssist.HasClearButton="True"
-                            materialDesign:HintAssist.HelperText="At least 8 characters" />
-                            <PasswordBox
-                            Margin="0 10 0 10"
-                            Grid.Row="2"
-                            materialDesign:HintAssist.Hint="Password"
+                            materialDesign:HintAssist.Hint="Сменить пароль"
                             materialDesign:TextFieldAssist.HasClearButton="True"
                             materialDesign:HintAssist.HelperText="At least 8 characters" />
                             <Button
-                            Grid.Row="3"
+                            Command="{Binding ChangePasswordCommand}"
+                            CommandParameter="{Binding ElementName=CurrentPassword}"
+                            Grid.Row="2"
                             Width="150"
                             HorizontalAlignment="Right"
                             Style="{StaticResource MaterialDesignRaisedLightButton}"
                             ToolTip="Resource name: MaterialDesignRaisedLightButton"
-                            Content="Изменить пароль" />
+                            Content="Изменить пароль" Cursor="Hand" />
                         </Grid>
                     </Grid>
                 </StackPanel>

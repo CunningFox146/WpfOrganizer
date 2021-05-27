@@ -7,7 +7,7 @@ using WpfOrganizer.Util;
 
 namespace WpfOrganizer.Models
 {
-    class Users : Notifyer
+    class Users
     {
         private User currentUser;
         public User CurrentUser 
@@ -57,6 +57,30 @@ namespace WpfOrganizer.Models
         {
             var user = GetUserByName(name);
             return user != null && user.Password == password ? user : null;
+        }
+
+        public bool TryChangeNameForCurrentUser(string name)
+        {
+            if (GetUserByName(name) != null)
+                return false;
+
+            CurrentUser.Name = name;
+            OnUserChanged?.Invoke(CurrentUser);
+            return true;
+        }
+
+        public bool TryChangePasswordForCurrentUser(string password)
+        {
+            if (String.IsNullOrEmpty(password))
+                return false;
+            CurrentUser.Password = password;
+            return true;
+        }
+
+        public void ChangeAvatarForCurrentUser(string url)
+        {
+            CurrentUser.ImageUrl = url;
+            OnUserChanged?.Invoke(CurrentUser);
         }
     }
 }
