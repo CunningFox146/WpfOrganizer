@@ -7,15 +7,25 @@
         xmlns:viewmodels="clr-namespace:WpfOrganizer.ViewModels"
         xmlns:views="clr-namespace:WpfOrganizer.Views"
         mc:Ignorable="d"
+        
         Title="MainWindow" Height="600" Width="900"
         ResizeMode="CanResizeWithGrip">
-    <Window.Resources>
-
-        <DataTemplate x:Name="SettingsViewModel" DataType="{x:Type viewmodels:SettingsViewModel}">
-            <views:LoginView DataContext="{Binding}"/>
-        </DataTemplate>
-    </Window.Resources>
     <Grid>
-        <ContentControl Content="{Binding}"/>
+        <ContentControl Content="{Binding SelectedView, UpdateSourceTrigger=PropertyChanged}">
+            <ContentControl.Resources>
+                <DataTemplate DataType="{x:Type viewmodels:LoginViewModel}">
+                    <views:LoginView/>
+                </DataTemplate>
+                <DataTemplate DataType="{x:Type viewmodels:RegisterViewModel}">
+                    <views:RegisterView/>
+                </DataTemplate>
+                <DataTemplate DataType="{x:Type viewmodels:MainViewModel}">
+                    <views:MainView/>
+                </DataTemplate>
+                <DataTemplate DataType="{x:Type viewmodels:SettingsViewModel}">
+                    <views:SettingsView/>
+                </DataTemplate>
+            </ContentControl.Resources>
+        </ContentControl>
     </Grid>
 </Window>

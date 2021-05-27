@@ -33,17 +33,20 @@
                     <RowDefinition/>
                 </Grid.RowDefinitions>
                 <TextBox
+                    Text="{Binding Login, UpdateSourceTrigger=PropertyChanged}"
                     Margin="0 0 0 20"
                     materialDesign:HintAssist.Hint="Логин"
                     materialDesign:HintAssist.HelperText="Введите ваш логин" Cursor="IBeam">
 
                 </TextBox>
                 <PasswordBox
+                  x:Name="CurrentPasswordBox"
                   Grid.Row="1"
                   Margin="0 0 0 20"
                   materialDesign:HintAssist.Hint="Password"
                   materialDesign:TextFieldAssist.HasClearButton="True"
-                  materialDesign:HintAssist.HelperText="Как минимум 8 символов" />
+                  materialDesign:HintAssist.HelperText="Как минимум 8 символов" >
+                </PasswordBox>
             </Grid>
             <Grid Grid.Row="2">
                 <Grid.ColumnDefinitions>
@@ -52,20 +55,19 @@
                 </Grid.ColumnDefinitions>
                 <Button
                     Margin="20 0 20 0"
-                Style="{StaticResource MaterialDesignRaisedAccentButton}"
-                
+                Style="{StaticResource MaterialDesignRaisedDarkButton}"
+                Command="{Binding LoginCommand}"
+                CommandParameter="{Binding ElementName=CurrentPasswordBox}"
                 ToolTip="Resource name: MaterialDesignRaisedAccentButton"
-                materialDesign:RippleAssist.Feedback="#DD000000"
-                Content="CUSTOM RIPPLE" />
+                Content="Войти" />
 
                 <Button
                 Margin="20 0 20 0"
                 Grid.Column="1"
-                Style="{StaticResource MaterialDesignRaisedAccentButton}"
-                
+                Style="{StaticResource MaterialDesignRaisedLightButton}"
+                Command="{Binding RegisterCommand}"
                 ToolTip="Resource name: MaterialDesignRaisedAccentButton"
-                materialDesign:RippleAssist.Feedback="#DD000000"
-                Content="CUSTOM RIPPLE" Cursor="Hand" />
+                Content="Регистрация" Cursor="Hand" />
             </Grid>
         </Grid>
     </Grid>

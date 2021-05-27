@@ -186,6 +186,7 @@
             </Grid>
             <TextBlock Text="{Binding CurrentDateTime, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource DateToString}}" VerticalAlignment="Center"/>
             <materialDesign:Chip
+                Command="{Binding SettingsCommand}"
                 HorizontalAlignment="Right"
                 DockPanel.Dock="Right"
                 Content="James Willock" Cursor="Hand">

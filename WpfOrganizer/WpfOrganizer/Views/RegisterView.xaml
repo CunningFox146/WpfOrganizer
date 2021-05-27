@@ -20,7 +20,14 @@
             <RowDefinition Height="5*"/>
             <RowDefinition Height="1*"/>
         </Grid.RowDefinitions>
-        <Grid Grid.Row="1" Grid.Column="1">
+        <Button
+        Style="{StaticResource MaterialDesignToolForegroundButton}"
+        Command="{Binding BackCommand}"
+        HorizontalAlignment="Left"
+        VerticalAlignment="Top">
+            <materialDesign:PackIcon Kind="ArrowLeft" HorizontalAlignment="Right" />
+        </Button>
+            <Grid Grid.Row="1" Grid.Column="1">
             <Grid.RowDefinitions>
                 <RowDefinition Height="1*"/>
                 <RowDefinition Height="1*"/>
@@ -33,12 +40,14 @@
                     <RowDefinition/>
                 </Grid.RowDefinitions>
                 <TextBox
+                    Text="{Binding Login, UpdateSourceTrigger=PropertyChanged}"
                     Margin="0 0 0 20"
                     materialDesign:HintAssist.Hint="Логин"
                     materialDesign:HintAssist.HelperText="Введите ваш логин" Cursor="IBeam">
 
                 </TextBox>
                 <PasswordBox
+                  x:Name="CurrentPasswordBox"
                   Grid.Row="1"
                   Margin="0 0 0 20"
                   materialDesign:HintAssist.Hint="Пароль"
@@ -48,11 +57,11 @@
             <Button
                 Grid.Row="2"
                 Margin="20 0 20 0"
-                Style="{StaticResource MaterialDesignRaisedAccentButton}"
-                
+                Style="{StaticResource MaterialDesignRaisedDarkButton}"
+                Command="{Binding RegisterCommand}"
+                CommandParameter="{Binding ElementName=CurrentPasswordBox}"
                 ToolTip="Resource name: MaterialDesignRaisedAccentButton"
-                materialDesign:RippleAssist.Feedback="#DD000000"
-                Content="Регистрация" />
+                Content="Регистрация" Cursor="Hand" />
         </Grid>
     </Grid>
 </UserControl>

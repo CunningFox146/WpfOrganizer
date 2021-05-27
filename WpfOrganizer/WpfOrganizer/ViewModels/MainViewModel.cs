@@ -11,7 +11,7 @@ using System.Diagnostics;
 
 namespace WpfOrganizer.ViewModels
 {
-    class MainViewModel : Notifyer
+    class MainViewModel : BaseViewModel
     {
         private static MainViewModel currentInstance;
         public static MainViewModel inst
@@ -160,6 +160,13 @@ namespace WpfOrganizer.ViewModels
                 ChangeDate(data.Tasks, data.Tags);
         }
 
+        public ICommand SettingsCommand { get; }
+        private bool OnCanSettingsCommand(object p) => true;
+        private void OnSettingsCommand(object p)
+        {
+            MainWindowViewModel.Inst.CurrentView = AppViews.Settings;
+        }
+
         //public ICommand SortCommand { get; }
         //private bool OnCanSortCommand(object p) => true;
         //private void OnSortCommand(object p)
@@ -210,6 +217,7 @@ namespace WpfOrganizer.ViewModels
             RemoveCheckListCommand = new LambdaCommand(OnRemoveCheckListCommand, OnCanRemoveCheckListCommand);
             RemoveCheckListItemCommand = new LambdaCommand(OnRemoveCheckListItemCommand, OnCanRemoveCheckListItemCommand);
             SetDateCommand = new LambdaCommand(OnSetDateCommand, OnCanSetDateCommand);
+            SettingsCommand = new LambdaCommand(OnSettingsCommand, OnCanSettingsCommand);
             //SortCommand = new LambdaCommand(OnSortCommand, OnCanSortCommand);
 
             #endregion

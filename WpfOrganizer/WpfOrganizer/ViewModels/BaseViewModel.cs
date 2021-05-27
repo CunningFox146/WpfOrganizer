@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using WpfOrganizer.Util;
 
 namespace WpfOrganizer.ViewModels
 {
-    class SettingsViewModel : BaseViewModel
+    class BaseViewModel : Notifyer
     {
-
     }
 }
