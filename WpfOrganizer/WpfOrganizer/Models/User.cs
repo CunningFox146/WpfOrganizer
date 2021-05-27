@@ -23,6 +23,7 @@ namespace WpfOrganizer.Models
 
         public User()
         {
+            TaskPicker = new TaskPicker();
             ImageUrl = @"/WpfOrganizer;component/Resources/Images/default_profile.png";
         }
     }

@@ -75,13 +75,13 @@ namespace WpfOrganizer.Models
 
         public void SetImages(List<TaskImage> images)
         {
-            Images = images != null ? new ObservableCollection<TaskImage>() : new ObservableCollection<TaskImage>(images);
+            Images = images != null ? new ObservableCollection<TaskImage>(images) : new ObservableCollection<TaskImage>();
             Images.CollectionChanged += Images_CollectionChanged;
         }
 
         public void SetCheckLists(List<CheckList> lists)
         {
-            CheckLists = lists != null ? new ObservableCollection<CheckList>() : new ObservableCollection<CheckList>(lists);
+            CheckLists = lists != null ? new ObservableCollection<CheckList>(lists) : new ObservableCollection<CheckList>();
             CheckLists.CollectionChanged += CheckLists_CollectionChanged;
         }
 

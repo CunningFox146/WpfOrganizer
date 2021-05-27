@@ -26,12 +26,12 @@ namespace WpfOrganizer.Models
 
     class TaskPicker : Notifyer
     {
-        private static TaskPicker instance;
-        public static TaskPicker Inst
-        {
-            set { }
-            get => instance ?? (instance = new TaskPicker());
-        }
+        //private static TaskPicker instance;
+        //public static TaskPicker Inst
+        //{
+        //    set { }
+        //    get => instance ?? (instance = new TaskPicker());
+        //}
 
         private ObservableCollection<TaskData> tasks;
         public ObservableCollection<TaskData> Tasks { get => tasks; set => Set(ref tasks, value); }

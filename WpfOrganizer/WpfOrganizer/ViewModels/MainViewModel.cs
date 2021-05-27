@@ -154,7 +154,7 @@ namespace WpfOrganizer.ViewModels
         private bool OnCanSetDateCommand(object p) => true;
         private void OnSetDateCommand(object p)
         {
-            TaskData data = TaskPicker.Inst.GetTaskData(SelectedDate);
+            TaskData data = Users.Inst.CurrentUser.TaskPicker.GetTaskData(SelectedDate);
 
             if (data != null)
                 ChangeDate(data.Tasks, data.Tags);
