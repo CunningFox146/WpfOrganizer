@@ -15,7 +15,7 @@ namespace WpfOrganizer.Models
         public static void ShowTaskWarning(string taskName, TimeSpan timeLeft)
         {
             int seconds = (int)(timeLeft.TotalSeconds);
-            Trace.WriteLine(seconds);
+            //Trace.WriteLine(seconds);
 
             if ((seconds == 60 * 60 && AppSettings.NotifyOn60) ||
                 (seconds == 15 * 60 && AppSettings.NotifyOn15) ||

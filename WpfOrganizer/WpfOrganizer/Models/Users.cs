@@ -86,7 +86,7 @@ namespace WpfOrganizer.Models
 
         public Users()
         {
-            List<User> loaded = DataBasеManager.GetUsers();
+            List<User> loaded = DataBaseManager.GetUsers();
             RegisteredUsers = loaded ?? new List<User>();//DataBaseManager.GetUsers();
         }
     }
