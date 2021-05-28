@@ -49,7 +49,7 @@ namespace WpfOrganizer.ViewModels
 
             checkList.Items.Add(new CheckListItem(checkList) { Name = "New Check List Item" });
         }
-        
+
         public ICommand RemoveCheckListCommand { get; }
         private bool OnCanRemoveCheckListCommand(object p) => true;
         private void OnRemoveCheckListCommand(object p)
@@ -100,7 +100,7 @@ namespace WpfOrganizer.ViewModels
         private bool OnCanAddCheckListCommand(object p) => true;
         private void OnAddCheckListCommand(object p)
         {
-            
+
 
             var checkList = new CheckList() { Name = "New Check List" };
 
@@ -113,7 +113,7 @@ namespace WpfOrganizer.ViewModels
 
             SelectedTask.CheckLists.Add(checkList);
         }
-        
+
         public ICommand AddTaskCommand { get; }
         private bool OnCanAddTaskCommand(object p) => SelectedTask != null && SelectedTask.IsValid();
         private void OnAddTaskCommand(object p)
@@ -134,7 +134,7 @@ namespace WpfOrganizer.ViewModels
         private bool OnCanCreateTagCommand(object p) => CreatingTag != null && !String.IsNullOrEmpty(CreatingTag.Name);
         private void OnCreateTagCommand(object p)
         {
-            if (CreatingTag == null) return;
+            if (creatingTag == null || creatingTag is not Tag) return;
             Tags.Add(CreatingTag);
             CreatingTag = new Tag();
         }

@@ -1,0 +1,54 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="WpfOrganizer.Util.Notifyer">
+    <Position X="4" Y="3" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAABAAAIAAAAAAAgAAAAAAAAAAAAAAgAAA=</HashCode>
+      <FileName>Util\Notifyer.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="WpfOrganizer.Models.NotificationsManager">
+    <Position X="5.75" Y="3" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IAAEAAMAAAAAAAAAAABAAAAAMAAEAAACAAAAAAQABAA=</HashCode>
+      <FileName>Models\NotificationsManager.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WpfOrganizer.Models.DataBaseManager">
+    <Position X="2.25" Y="3" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\DataBaseManager.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WpfOrganizer.Models.TagManager">
+    <Position X="7.5" Y="3" Width="1.5" />
+    <NestedTypes>
+      <Delegate Name="WpfOrganizer.Models.TagManager.TagRemoved" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>Models\TagManager.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Delegate>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>AgAAAAAAAAAAABAAAAAAAAAAAABAAAAAAAACAAAAAAA=</HashCode>
+      <FileName>Models\TagManager.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WpfOrganizer.Models.TimeManager">
+    <Position X="9.25" Y="3" Width="1.5" />
+    <NestedTypes>
+      <Delegate Name="WpfOrganizer.Models.TimeManager.TimeUpdated" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>Models\TimeManager.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Delegate>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>AAAAAAgAAAAAAQAAAAAAAAAAACBAAAAAAAACAAAAAAA=</HashCode>
+      <FileName>Models\TimeManager.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

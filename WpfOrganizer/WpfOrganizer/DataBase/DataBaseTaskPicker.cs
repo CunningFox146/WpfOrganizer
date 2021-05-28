@@ -19,9 +19,12 @@ namespace WpfOrganizer.DataBase
 
             var list = new List<TaskData>();
 
-            foreach (var item in data.Tasks)
+            if (data.Tasks != null)
             {
-                list.Add(DataBaseTaskData.ToTaskData(item));
+                foreach (var item in data.Tasks)
+                {
+                    list.Add(DataBaseTaskData.ToTaskData(item));
+                }
             }
 
             newData.Tasks = new ObservableCollection<TaskData>(list);

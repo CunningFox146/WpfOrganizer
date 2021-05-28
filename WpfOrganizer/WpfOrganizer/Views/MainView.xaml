@@ -46,15 +46,6 @@
                     <ColumnDefinition/>
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
-
-                <!--<Button
-                Style="{StaticResource MaterialDesignFloatingActionMiniLightButton}"
-                ToolTip="MaterialDesignFloatingActionMiniLightButton">
-                    <materialDesign:PackIcon
-                Kind="Add"
-                Height="20"
-                Width="20" />
-                </Button>-->
                 <Button
                 Margin="5"
                 Style="{StaticResource MaterialDesignFloatingActionDarkButton}"

@@ -9,7 +9,7 @@ namespace WpfOrganizer.Models
         public string Name { get => name; set => Set(ref name, value); }
 
         private Color color;
-        public Color Color { get => color; set { Set(ref color, value); System.Diagnostics.Trace.WriteLine("Color was set to" + Color.ToString()); } }
+        public Color Color { get => color; set => Set(ref color, value); }
 
         private bool isChecked;
         public bool IsChecked { get => isChecked; set => Set(ref isChecked, value); }

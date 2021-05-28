@@ -98,15 +98,18 @@ namespace WpfOrganizer.Models
                 double timeLeft = ((TimeSpan)TimeLeft).TotalSeconds;
                 TimeProgress = (int)(timeLeft / totalSeconds * (double)100);
 
-                System.Diagnostics.Trace.WriteLine($"{(int)(timeLeft - 1)}, {(int)(timeLeft)}, {timeLeft}");
+                //System.Diagnostics.Trace.WriteLine($"{(int)(timeLeft - 1)}, {(int)(timeLeft)}, {timeLeft}");
 
                 if (!ForCreation && !Checked)
                 {
-                    if ((int)timeLeft == 0) // Это просто ужасно, просто кошмарно, но времени на норм решение нету
+                    // Это просто ужасно, просто кошмарно, но времени на норм решение нету
+                    if ((int)timeLeft == 0)
+                    {
                         if (timeLeft > 0)
                             NotificationsManager.ShowTaskExpired(Name);
-                        else
-                            NotificationsManager.ShowTaskWarning(Name, (TimeSpan)TimeLeft);
+                    }
+                    else
+                        NotificationsManager.ShowTaskWarning(Name, (TimeSpan)TimeLeft);
                 }
             }
             else

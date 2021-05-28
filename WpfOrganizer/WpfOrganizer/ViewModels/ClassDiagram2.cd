@@ -1,0 +1,60 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="WpfOrganizer.ViewModels.LoginViewModel">
+    <Position X="8.25" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAIAAAAAAAAAAACAAQCAAAAQBACAEAA=</HashCode>
+      <FileName>ViewModels\LoginViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WpfOrganizer.ViewModels.MainViewModel">
+    <Position X="10" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>xFAkCCAEQPAAFKCBARUIIAkEoBQLAEsEEATKEAAAjSo=</HashCode>
+      <FileName>ViewModels\MainViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WpfOrganizer.ViewModels.MainWindowViewModel">
+    <Position X="6.5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIAAAACAAAAEgAAIAAAAAAAAABAAAEAAAgCAAACAQA=</HashCode>
+      <FileName>ViewModels\MainWindowViewModel.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="AppViews" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="WpfOrganizer.ViewModels.RegisterViewModel">
+    <Position X="3" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAACAABAAAAgAAAAACAAQCAAAAQAAAAEAA=</HashCode>
+      <FileName>ViewModels\RegisterViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WpfOrganizer.ViewModels.SettingsViewModel">
+    <Position X="4.75" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAJgAAAQcAAjAiBIAAggQEAjBAAAIEAoAACAQWBiAQ=</HashCode>
+      <FileName>ViewModels\SettingsViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WpfOrganizer.Util.Notifyer" Collapsed="true">
+    <Position X="6.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAABAAAIAAAAAAAgAAAAAAAAAAAAAAgAAA=</HashCode>
+      <FileName>Util\Notifyer.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="MainWindowViewModel" />
+    </ShowAsAssociation>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Enum Name="WpfOrganizer.ViewModels.AppViews">
+    <Position X="6.5" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAQBAAEAAA=</HashCode>
+      <FileName>ViewModels\MainWindowViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

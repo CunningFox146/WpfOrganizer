@@ -44,9 +44,6 @@ namespace WpfOrganizer.ViewModels
         private string login;
         public string Login { get => login; set => Set(ref login, value); }
 
-        //private string password;
-        //public string Password { get => password, set => Set(ref password, value); }
-
         public LoginViewModel()
         {
             #region Команды

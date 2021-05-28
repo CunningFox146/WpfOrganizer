@@ -71,12 +71,12 @@ namespace WpfOrganizer.Models
             }
 
             Percent = (int)(Items.Count != 0 ? ((double)checkedCount / (double)Items.Count * 100) : 0);
-            try
-            {
-                System.Diagnostics.Trace.WriteLine($"{Percent}, {(checkedCount / Items.Count)}");
-            }
-            catch { }
-            
+            //try
+            //{
+            //    System.Diagnostics.Trace.WriteLine($"{Percent}, {(checkedCount / Items.Count)}");
+            //}
+            //catch { }
+
         }
 
         private void Items_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)

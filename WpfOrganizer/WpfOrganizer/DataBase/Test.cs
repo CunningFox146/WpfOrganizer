@@ -7,7 +7,7 @@ using WpfOrganizer.Models;
 
 namespace WpfOrganizer.DataBase
 {
-    static class Test
+    static class DataBaseManager
     {
         public static string Path = @"C:\Users\makar\Desktop\test.json";
 
@@ -24,16 +24,15 @@ namespace WpfOrganizer.DataBase
 
         static public List<User> GetUsers()
         {
-            //    try
-            //    {
-            using (StreamReader file = File.OpenText(Path))
+            try
+            {
+                using (StreamReader file = File.OpenText(Path))
                 {
                     string json = file.ReadToEnd();
                     return JsonConvert.DeserializeObject<List<User>>(json);
-                Trace.WriteLine(json);
                 }
-            //}
-            //catch { }
+            }
+            catch { }
             return null;
         }
     }

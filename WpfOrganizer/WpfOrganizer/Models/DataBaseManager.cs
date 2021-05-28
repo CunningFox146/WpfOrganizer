@@ -5,14 +5,15 @@ using WpfOrganizer.DataBase;
 
 namespace WpfOrganizer.Models
 {
-    static class DataBaseManager
+    static class DataBasеManager
     {
         public static List<User> GetUsers()
         {
             var users = new List<User>();
             using (ApplicationContext db = new ApplicationContext())
             {
-                var dbUsers = db.Users.ToList();
+                var dbUsers = db.Users.Include(u=>u.TaskPicker);
+                //var dbTaslPicker = 
                 
                 foreach (DataBaseUser dbUser in dbUsers)
                 {

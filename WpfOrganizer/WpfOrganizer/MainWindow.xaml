@@ -8,7 +8,7 @@
         xmlns:views="clr-namespace:WpfOrganizer.Views"
         mc:Ignorable="d"
         
-        Title="MainWindow" Height="600" Width="900"
+        Title="Omilye" Height="600" Width="900"
         ResizeMode="CanResizeWithGrip">
     <Grid>
         <ContentControl Content="{Binding SelectedView, UpdateSourceTrigger=PropertyChanged}">
